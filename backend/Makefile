@@ -1,4 +1,4 @@
-.PHONY: all run app freeze install
+.PHONY: all run app freeze install migrate
 
 BASE_PATH := $(shell dirname $(shell pwd))
 NAME ?= apps
@@ -10,6 +10,7 @@ all:
 	@echo "Nothing to be done for 'make'."
 
 run:
+	@source "$(BASE_PATH)/venv/Scripts/activate"; \
 	python manage.py runserver --settings "backend.settings.dev"
 
 app:
@@ -18,8 +19,12 @@ app:
 
 freeze:
 	@source "$(BASE_PATH)/venv/Scripts/activate"; \
-	pip freeze;
+	pip freeze
 
-install:
+install: src
+	pip install $(NAME)
+
+migrate:
 	@source "$(BASE_PATH)/venv/Scripts/activate"; \
-	pip install $(NAME);
+	python manage.py makemigrations --settings "backend.settings.dev"; \
+	python manage.py migrate --settings "backend.settings.dev"; 
