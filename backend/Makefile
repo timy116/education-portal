@@ -7,13 +7,13 @@ MANAGE := $(shell dirname $(APPS_DIR))/manage.py
 
 
 all:
-	@echo "Nothingz to be done for 'make'."
+	@echo "Nothing to be done for 'make'."
 
 run:
 	python manage.py runserver --settings "backend.settings.dev"
 
 app:
-	cd $(APPS_DIR); \
+	@ cd $(APPS_DIR); \
 	python $(MANAGE) startapp $(NAME);
 
 freeze:
