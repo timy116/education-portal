@@ -12,12 +12,22 @@
 	{% block head %}
 	{% endblock head %}
 
+	<link rel="stylesheet" href="{% static 'css/bootstrap-3.4.1.css' %}">
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
 	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
 </head>
 
-<body>
-	<h1>Hello</h1>
+<body id="top">
+	<div class="contant-footer-wrapper">
+		{% block content_wrapper %}
+			<div {% block page_id %}id="content_wrapper"{% endblock page_id %}>
+				{% block top_bar %}
+					{% include 'portal/components/header.html' %}
+				{% endblock top_bar %}
+
+			</div>
+		{% endblock content_wrapper %}
+	</div>
 
 	<script src="{% static 'js/vendor/jquery-3.5.1.js' %}"></script>
 	<script src="{% static 'js/vendor/jquery-ui-1.12.1.js' %}"></script>
