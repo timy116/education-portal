@@ -23,6 +23,9 @@ INTERNAL_IPS = [
 
 
 # kolo settings.
-MIDDLEWARE += [
-    "kolo.middleware.KoloMiddleware",
-]
+KOLO_DISABLE = bool(env('KOLO_DISABLE'))
+
+if not KOLO_DISABLE:
+    MIDDLEWARE += [
+        "kolo.middleware.KoloMiddleware",
+    ]
