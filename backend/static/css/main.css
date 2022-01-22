@@ -77,6 +77,61 @@ img {
 	font-family: "Material Icons Outlined";
 }
 
+.dropdown-menu {
+	color: rgba(255, 255, 255, .85);
+	border: 2px solid rgba(255, 255, 255, 0.2);
+	border-radius: 0.75rem;
+	border-top: 0;
+	font-weight: 300;
+	margin: 0;
+	max-height: 300px;
+	min-width: 0;
+	overflow: auto;
+	padding: 0;
+}
+
+.dropdown-menu .dropdown-menu__option .button--regular {
+	color: rgba(255, 255, 255, .85) !important;
+	line-height: 2.5rem;
+	padding: 1rem 1.5rem 1rem 1.5rem;
+	align-items: center;
+	background: #131022;
+	border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+	display: flex;
+	justify-content: space-between;
+	margin: 0;
+}
+
+.button--header--login,
+.dropdown-menu__option__text {
+	transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.button--header--login:hover .dropdown__text,
+.dropdown-menu .dropdown-menu__option .button--regular:hover .dropdown-menu__option__text,
+.dropdown-menu .dropdown-menu__option .button--regular:focus .dropdown-menu__option__text,
+.dropdown-menu .dropdown-menu__option .button--regular:active .dropdown-menu__option__text {
+	color: #6366f1;
+	text-decoration: none;
+	outline: 0;
+}
+
+.material-icons-outlined {
+	color: rgba(255, 255, 255, .85) !important;
+	font-family: 'Material Icons Outlined';
+	font-weight: normal;
+	font-style: normal;
+	font-size: 24px;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-smoothing: antialiased;
+}
+
 /* menu end */
 
 
@@ -220,6 +275,10 @@ img {
 		padding: 1rem 1.5rem 1rem 1.5rem;
 		width: 155px;
 		height: 45px;
+	}
+
+	.header__login-options-dropdown-menu {
+		width: 100%;
 	}
 }
 
