@@ -13,6 +13,12 @@ img {
 	max-width: 100%;
 }
 
+/* Temp style */
+.content {
+	height: 1500px;
+	background: linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), #131022;
+}
+
 /* end global rules */
 
 
@@ -213,6 +219,78 @@ img {
 }
 
 /* button end */
+
+
+/* footer start */
+.footer {
+	padding: 4.5rem 0 4.5rem 0;
+	background-color: #131022;
+	box-shadow: 0 -2px 7px 1px rgb(0 0 0 / 10%);
+	text-align: center;
+}
+
+.is-flex {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	-webkit-flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+.footer .footer-links {
+	margin: 0 -1.5rem 0 -1.5rem;
+	text-align: left;
+}
+
+.is-flex [class^="col-"] {
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	-ms-flex-direction: column;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	flex-direction: column;
+}
+
+p,
+div#ot-sdk-cookie-policy {
+	padding: 1rem 0 1rem 0;
+	margin: 0;
+}
+
+.footer p {
+	font-size: 1.7rem;
+}
+
+.footer p,
+.footer p a,
+.footer label,
+.footer small {
+	color: rgba(255, 255, 255, .85);
+	transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.footer p a:hover,
+.footer p a:active,
+.footer p a:focus,
+.footer label a,
+.footer label a:hover,
+.footer label a:active,
+.footer small a,
+.footer small a:hover,
+.footer small a:active {
+	border: none;
+	color: #6366f1;
+	text-decoration: none;
+	outline: 0;
+}
+
+/* footer end */
+
 
 /* media rules */
 /* menu start */

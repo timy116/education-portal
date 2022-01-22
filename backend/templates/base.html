@@ -23,14 +23,46 @@
 
 <body id="top">
 	<div class="contant-footer-wrapper">
+		{% comment %} block content_wrapper {% endcomment %}
 		{% block content_wrapper %}
+
+		{% comment %} content_wrapper {% endcomment %}
 		<div {% block page_id %}id="content_wrapper" {% endblock page_id %}>
+
+			{% comment %} block top_bar {% endcomment %}
 			{% block top_bar %}
 			{% include 'portal/components/header.html' %}
 			{% endblock top_bar %}
 
+			{% comment %} block sub_nav {% endcomment %}
+			{% block sub_nav %}
+			{% endblock sub_nav %}
+
+			{% comment %} messages {% endcomment %}
+			<div id="messages">
+			</div>
+
+			{% comment %} content_div {% endcomment %}
+			{% block content_div %}
+			<div class="content">
+
+				{% comment %} block content {% endcomment %}
+				{% block content %}
+
+				{% comment %} base_new_content {% endcomment %}
+				{% block base_new_content %}{% endblock %}
+				{% endblock content %}
+			</div>
+			{% endblock content_div %}
+
+
 		</div>
 		{% endblock content_wrapper %}
+
+		{% comment %} block footer {% endcomment %}
+		{% block footer %}
+		{% include 'portal/components/footer.html' %}
+		{% endblock footer %}
 	</div>
 
 	<script src="{% static 'js/vendor/jquery-3.5.1.js' %}"></script>
