@@ -40,8 +40,41 @@ img {
 	height: 100%;
 }
 
+.menu button,
+.menu .dropdown-menu {
+	max-width: 350px;
+}
+
 .logo {
 	padding: 1.5rem 7rem 1.5rem 1.5rem;
+}
+
+.menu__brand--placeholder {
+	height: 100%;
+	width: 141px;
+}
+
+.dropdown,
+.button--dropdown {
+	display: flex;
+}
+
+.dropdown__text {
+	display: block;
+	overflow: visible;
+	text-align: left;
+	text-overflow: ellipsis;
+	width: 80%;
+	white-space: nowrap;
+}
+
+.button--dropdown:after {
+	font-size: 2.4rem;
+	padding: 0 0 0 2.5rem;
+	font-weight: normal;
+	line-height: 1;
+	content: "\e5cf";
+	font-family: "Material Icons Outlined";
 }
 
 /* menu end */
@@ -102,6 +135,28 @@ img {
 	padding: 1rem 3rem 1rem 3rem;
 }
 
+.button--regular,
+.ui-dialog-buttonset button {
+	padding: 1rem 1.5rem 1rem 1.5rem;
+}
+
+.button--secondary {
+	padding: 0.8rem 1.5rem 0.8rem 1.5rem;
+	background-color: transparent;
+	border: 2px solid;
+}
+
+.button--dropdown {
+	border: 2px solid rgba(255, 255, 255, 0.2);
+	border-radius: 0.75rem;
+	display: flex;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	outline: none;
+	height: 42px;
+}
+
 /* button end */
 
 /* media rules */
@@ -151,6 +206,13 @@ img {
 		/* 元素本身是 flex layout，所以裡面的元素都會變成 flex item，包括文字
 		所以在這裡裡面的文字就會居中 */
 		justify-content: center;
+	}
+
+	.menu .button--register,
+	.menu .button--header--login {
+		padding: 1rem 1.5rem 1rem 1.5rem;
+		width: 155px;
+		height: 45px;
 	}
 
 	.menu .button--register,

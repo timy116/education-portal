@@ -1,20 +1,32 @@
 {% load staticfiles %}
 
 <div class="header">
+	{% comment %} Menu {% endcomment %}
 	<div class="menu">
 		<div class="menu__brand">
 			<a href="{% url 'index' %}">
 				<img src="{% static 'img/logo.png' %}">
 			</a>
+			<div class="menu__brand--placeholder"></div>
 		</div>
 
+		{% comment %} menu__left-side {% endcomment %}
 		<div class="menu__left-side col-md-5">
 			<a href="#" class="button--menu--primary button--menu">老師</a>
 			<a href="#" class="button--menu--primary button--menu">學生</a>
 		</div>
 
+		{% comment %} menu__right-side {% endcomment %}
 		<div class="menu__right-side col-md-5">
 			<a href="#" id="signup_button" class="button button--primary button--register">註冊</a>
+
+			{% comment %} dropdown {% endcomment %}
+			<div class="dropdown">
+				<button id="login_dropdown" class="button--regular button--secondary button--header--login button--dropdown"
+					data-toggle="dropdown" aria-expanded="false">
+					<div class="dropdown__text">登入</div>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
