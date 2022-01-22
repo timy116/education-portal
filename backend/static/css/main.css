@@ -47,7 +47,24 @@ img {
 /* menu end */
 
 
-/* button end */
+/* button start */
+.button {
+	font-size: 1.6rem;
+	font-weight: 600;
+	text-align: center;
+	white-space: nowrap;
+	display: inline-block;
+	border: 0;
+	min-width: 150px;
+}
+
+.button,
+.button:hover,
+.button:active,
+.button:focus {
+	text-decoration: none;
+}
+
 .button--menu--primary {
 	font-size: 2.7rem;
 	margin: 0 4rem 0 1rem;
@@ -57,15 +74,32 @@ img {
 	transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
 }
 
-.button--menu:hover {
+.button--menu:hover,
+.button--menu:focus {
 	color: #6366f1;
 	text-decoration: none;
+	outline: 0;
 }
 
-.button--menu:focus {
-	outline: 0;
-	color: #6366f1;
-	text-decoration: none;
+.button--primary {
+	color: #fff;
+	background-color: #6366f1;
+	border-color: #6366f1;
+	border-radius: 0.75rem;
+	padding: 1rem 1.5rem 1rem 1.5rem;
+	transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.button--primary:hover,
+.button--primary:focus,
+.button--primary:active {
+	color: #fff;
+	background-color: #4044ee;
+	border-color: #4044ee;
+}
+
+.button--register {
+	padding: 1rem 3rem 1rem 3rem;
 }
 
 /* button end */
@@ -83,16 +117,6 @@ img {
 
 	.menu .menu__brand {
 		margin: 0 3.5rem 0 0;
-	}
-}
-
-@media (min-width: 768px) and (max-width: 1199px) {
-	.menu {
-		height: 80px;
-	}
-
-	.menu .logo {
-		padding: 1.5rem 4.5rem 1.5rem 1.5rem;
 	}
 }
 
@@ -119,6 +143,39 @@ img {
 	.menu__left-side {
 		align-items: center;
 		display: flex;
+	}
+
+	.menu .button--register {
+		margin: 0 3rem 0 0;
+
+		/* 元素本身是 flex layout，所以裡面的元素都會變成 flex item，包括文字
+		所以在這裡裡面的文字就會居中 */
+		justify-content: center;
+	}
+
+	.menu .button--register,
+	.menu .button--header--login {
+		padding: 1rem 1.5rem 1rem 1.5rem;
+		width: 155px;
+		height: 45px;
+	}
+}
+
+@media (min-width: 768px) {
+	.menu__right-side {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+	.menu {
+		height: 80px;
+	}
+
+	.menu .logo {
+		padding: 1.5rem 4.5rem 1.5rem 1.5rem;
 	}
 }
 
