@@ -1,7 +1,6 @@
 /* global rules */
 body {
 	color: rgba(255, 255, 255, .85);
-	;
 }
 
 a {
@@ -36,6 +35,8 @@ img {
 .menu a {
 	display: flex;
 	align-items: center;
+
+	/* 不指定的話就會照原本元素的大小顯示，可能會導致超出父親或小於父親很多 */
 	height: 100%;
 }
 
@@ -45,6 +46,29 @@ img {
 
 /* menu end */
 
+
+/* button end */
+.button--menu--primary {
+	font-size: 2.7rem;
+	margin: 0 4rem 0 1rem;
+}
+
+.button--menu {
+	transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.button--menu:hover {
+	color: #6366f1;
+	text-decoration: none;
+}
+
+.button--menu:focus {
+	outline: 0;
+	color: #6366f1;
+	text-decoration: none;
+}
+
+/* button end */
 
 /* media rules */
 /* menu start */
@@ -90,6 +114,11 @@ img {
 
 	.menu__brand img {
 		max-width: none;
+	}
+
+	.menu__left-side {
+		align-items: center;
+		display: flex;
 	}
 }
 
