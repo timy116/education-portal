@@ -43,7 +43,7 @@ class TeacherRegisterForm(forms.Form):
     password = forms.CharField(
         help_text="請輸入密碼",
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "長度至少為 10 個字元"}
+            attrs={"autocomplete": "off", "placeholder": "長度至少 10 個字元"}
         ),
     )
     confirm_password = forms.CharField(
