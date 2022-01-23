@@ -4,76 +4,77 @@
 <html lang="en">
 
 <head>
-	<title>{% block title %}Education Portal{% endblock title %}</title>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Education Portal{% endblock title %}</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	{% block head %}
-	{% endblock head %}
+  {% block head %}
+  {% endblock head %}
 
-	<link rel="stylesheet" href="{% static 'css/bootstrap-3.4.1.css' %}">
-	<link rel="stylesheet" href="{% static 'css/main.css' %}">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
-	<link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-3.4.1.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+  <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
 </head>
 
 <body id="top">
-	<div class="contant-footer-wrapper">
-		{% comment %} block content_wrapper {% endcomment %}
-		{% block content_wrapper %}
+<div class="contant-footer-wrapper">
+  {% comment %} block content_wrapper {% endcomment %}
+  {% block content_wrapper %}
 
-		{% comment %} content_wrapper {% endcomment %}
-		<div {% block page_id %}id="content_wrapper" {% endblock page_id %}>
+    {% comment %} content_wrapper {% endcomment %}
+    <div {% block page_id %}id="content_wrapper" {% endblock page_id %}>
 
-			{% comment %} block top_bar {% endcomment %}
-			{% block top_bar %}
-			{% include 'portal/components/header.html' %}
-			{% endblock top_bar %}
+      {% comment %} block top_bar {% endcomment %}
+      {% block top_bar %}
+        {% include 'portal/components/header.html' %}
+      {% endblock top_bar %}
 
-			{% comment %} block sub_nav {% endcomment %}
-			{% block sub_nav %}
-			{% endblock sub_nav %}
+      {% comment %} block sub_nav {% endcomment %}
+      {% block sub_nav %}
+      {% endblock sub_nav %}
 
-			{% comment %} messages {% endcomment %}
-			<div id="messages">
-			</div>
+      {% comment %} messages {% endcomment %}
+      <div id="messages">
+      </div>
 
-			{% comment %} content_div {% endcomment %}
-			{% block content_div %}
-			<div class="content">
+      {% comment %} content_div {% endcomment %}
+      {% block content_div %}
+        <div class="content">
 
-				{% comment %} block content {% endcomment %}
-				{% block content %}
+          {% comment %} block content {% endcomment %}
+          {% block content %}
 
-				{% comment %} base_new_content {% endcomment %}
-				{% block base_new_content %}{% endblock %}
-				{% endblock content %}
-			</div>
-			{% endblock content_div %}
+            {% comment %} base_new_content {% endcomment %}
+            {% block base_new_content %}
+            {% endblock %}
+          {% endblock content %}
+        </div>
+      {% endblock content_div %}
 
 
-		</div>
-		{% endblock content_wrapper %}
+    </div>
+  {% endblock content_wrapper %}
 
-		{% comment %} block footer {% endcomment %}
-		{% block footer %}
-		{% include 'portal/components/footer.html' %}
-		{% endblock footer %}
-	</div>
+  {% comment %} block footer {% endcomment %}
+  {% block footer %}
+    {% include 'portal/components/footer.html' %}
+  {% endblock footer %}
+</div>
 
-	<script src="{% static 'js/vendor/jquery-3.5.1.js' %}"></script>
-	<script src="{% static 'js/vendor/jquery-ui-1.12.1.js' %}"></script>
-	<script src="{% static 'js/vendor/bootstrap-3.4.1.js' %}"></script>
-	<script src="{% static 'js/vendor/jquery-placeholder-2.0.8.js' %}"></script>
-	<script src="{% static 'js/vendor/jquery-colorbox-1.5.13.js' %}"></script>
-	<script src="{% static 'js/vendor/iconify-2.0.3.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-3.5.1.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-ui-1.12.1.js' %}"></script>
+<script src="{% static 'js/vendor/bootstrap-3.4.1.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-placeholder-2.0.8.js' %}"></script>
+<script src="{% static 'js/vendor/jquery-colorbox-1.5.13.js' %}"></script>
+<script src="{% static 'js/vendor/iconify-2.0.3.js' %}"></script>
 
-	{% block scripts %}
-	{% endblock scripts %}
+{% block scripts %}
+{% endblock scripts %}
 </body>
 
 </html>
