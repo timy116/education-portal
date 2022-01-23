@@ -1,6 +1,17 @@
+from backend.apps.portal.helpers.password import (PasswordStrength,
+                                                  clean_password_helper)
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
+
+
+def check_passwords(password, confirm_password):
+    """
+    檢查兩次密碼是否輸入一致
+    """
+
+    if password is not None and password != confirm_password:
+        raise forms.ValidationError("您輸入的密碼不一致。")
 
 
 class TeacherRegisterForm(forms.Form):
@@ -44,11 +55,15 @@ class TeacherRegisterForm(forms.Form):
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_password(self):
-        ...
-
-        return self
+        return clean_password_helper(self, "password", PasswordStrength.TEACHER)
 
     def clean(self):
-        ...
+        if any(self.errors):
+            return
+
+        password = self.cleaned_data.get("password", None)
+        confirm_password = self.cleaned_data.get("confirm_password", None)
+
+        check_passwords(password, confirm_password)
 
         return self.cleaned_data
