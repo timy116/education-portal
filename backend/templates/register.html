@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+  <div id="signup_page"></div>
+
+  <div class="container registration">
+    {% comment %} teacher form wrapper {% endcomment %}
+    <div class="form--register form--register-text form--register--teacher is-flex-item col-sm-6">
+
+      {% comment %} teacher form container {% endcomment %}
+      <div class="form-div form">
+        <h4>老師 / 家教</h4>
+        <div class="row form--row">
+          <p class="semi-bold">
+            註冊個人資訊並且登入後，您將可以建立您的學校或社團。
+          </p>
+        </div>
+
+        {% comment %} form {% endcomment %}
+        <form id="form-reg-teacher" method="post" class="d-flex flex-column" autocomplete="off">
+          {% csrf_token %}
+          {{ teacher_form.non_field_errors }}
+
+          {% comment %} first name input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ teacher_form.first_name.help_text }}</small>
+            <label for="id_teacher_reg-first_name"></label>
+            {{ teacher_form.first_name }}
+            {{ teacher_form.first_name.errors }}
+          </div>
+
+          {% comment %} last name input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ teacher_form.last_name.help_text }}</small>
+            <label for="id_teacher_reg-last_name"></label>
+            {{ teacher_form.last_name }}
+            {{ teacher_form.last_name.errors }}
+          </div>
+
+          {% comment %} email input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ teacher_form.email.help_text }}</small>
+            <label for="id_teacher_reg-email"></label>
+            {{ teacher_form.email }}
+            {{ teacher_form.email.errors }}
+          </div>
+
+          {% comment %} password input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ teacher_form.password.help_text }}</small>
+            <label for="id_teacher_reg-password"></label>
+            <div class="input--icon">
+              {{ teacher_form.password }} <span class="iconify" data-icon="mdi:security"></span>
+            </div>
+          </div>
+
+          {% comment %} confirm password input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ teacher_form.confirm_password.help_text }}</small>
+            <label for="id_teacher_reg-confirm_password"></label>
+            <div class="input--icon">
+              {{ teacher_form.confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+            </div>
+
+          </div>
+
+          {% comment %} row under {% endcomment %}
+          <div class="row--under">
+            <div class="password-strength-container">
+
+            </div>
+          </div>
+
+          {% comment %} captcha {% endcomment %}
+          <div class="row">
+            {{ teacher_form.captcha }}
+          </div>
+
+          {% comment %} register button {% endcomment %}
+          <div class="row form-div d-flex align-items-end justify-content-end">
+            <button name="teacher_signup"
+                    class="button button--primary button--icon button--home teacher--home--button"
+                    type="submit">
+              註冊
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+                   role="img" class="iconify iconify--mdi" width="1em" height="1em" preserveAspectRatio="xMidYMid meet"
+                   viewBox="0 0 24 24" data-icon="mdi:chevron-right">
+                <path d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6l-1.41-1.42z" fill="currentColor"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    {% comment %} independent form {% endcomment %}
+    <div class="form--register form--register-text form--register--indep-student is-flex-item col-sm-6">
+
+      {% comment %} independent form container {% endcomment %}
+      <div class="form-div form">
+        <h4>獨立學習者</h4>
+        <div class="row form--row">
+          <p class="semi-bold">
+            如果您還不是學校或社團成員，請在下方註冊。
+          </p>
+          <small class="semi-bold">
+            您是學校或社團成員嗎? 如果是，請至 <a href="#">這裡</a> 登入。
+          </small>
+        </div>
+
+        {% comment %} form {% endcomment %}
+        <form id="form-reg-independent-student" method="post" class="d-flex flex-column" autocomplete="off">
+          {% csrf_token %}
+          {{ ind_form.non_field_errors }}
+
+          {% comment %} name input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ ind_form.name.help_text }}</small>
+            <label for="id_ind_reg-name"></label>
+            {{ ind_form.name }}
+            {{ ind_form.first_name.errors }}
+          </div>
+
+          {% comment %}  username input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ ind_form.username.help_text }}</small>
+            <label for="id_ind_reg-username"></label>
+            {{ ind_form.username }}
+            {{ ind_form.username.errors }}
+          </div>
+
+          {% comment %} email input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ ind_form.email.help_text }}</small>
+            <label for="id_ind_reg-email"></label>
+            {{ ind_form.email }}
+            {{ ind_form.email.errors }}
+          </div>
+
+          {% comment %} password input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ ind_form.password.help_text }}</small>
+            <label for="id_ind_reg-password"></label>
+            <div class="input--icon">
+              {{ ind_form.password }} <span class="iconify" data-icon="mdi:security"></span>
+            </div>
+          </div>
+
+          {% comment %} confirm password input {% endcomment %}
+          <div class="row form--row">
+            <small>{{ ind_form.confirm_password.help_text }}</small>
+            <label for="id_ind_reg-confirm_password"></label>
+            <div class="input--icon">
+              {{ ind_form.confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
+            </div>
+
+          </div>
+
+          {% comment %} row under {% endcomment %}
+          <div class="row--under">
+            <div class="password-strength-container">
+
+            </div>
+          </div>
+
+          {% comment %} captcha {% endcomment %}
+          <div class="row">
+            {{ teacher_form.captcha }}
+          </div>
+
+          {% comment %} register button {% endcomment %}
+          <div class="row form-div d-flex align-items-end justify-content-end">
+            <button name="independent_student_signup"
+                    class="button button--primary button--icon button--home teacher--home--button"
+                    type="submit">
+              註冊
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
+                   role="img" class="iconify iconify--mdi" width="1em" height="1em" preserveAspectRatio="xMidYMid meet"
+                   viewBox="0 0 24 24" data-icon="mdi:chevron-right">
+                <path d="M8.59 16.58L13.17 12L8.59 7.41L10 6l6 6l-6 6l-1.41-1.42z" fill="currentColor"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

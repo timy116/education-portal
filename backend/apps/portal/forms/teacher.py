@@ -1,8 +1,11 @@
-from backend.apps.portal.helpers.password import (PasswordStrength,
-                                                  clean_password_helper)
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
+
+from apps.portal.helpers.password import (
+    PasswordStrength,
+    clean_password_helper
+)
 
 
 def check_passwords(password, confirm_password):
@@ -23,21 +26,21 @@ class TeacherRegisterForm(forms.Form):
         max_length=100,
         help_text="請輸入您的名字",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "名字，例如: 小明"}
+            attrs={"autocomplete": "off", "placeholder": "小明"}
         ),
     )
     last_name = forms.CharField(
         max_length=100,
         help_text="請輸入您的姓氏",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "姓氏，例如: 王"}
+            attrs={"autocomplete": "off", "placeholder": "王"}
         ),
     )
     email = forms.EmailField(
         help_text="請輸入您的電子郵件地址",
-        widget=forms.EmailField(
+        widget=forms.EmailInput(
             attrs={"autocomplete": "off",
-                   "placeholder": "電子郵件，例如: user@example.com"}
+                   "placeholder": "user@example.com"}
         ),
     )
     password = forms.CharField(
@@ -49,7 +52,7 @@ class TeacherRegisterForm(forms.Form):
     confirm_password = forms.CharField(
         help_text="請再次輸入密碼",
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "密碼確認"}
+            attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼"}
         ),
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)

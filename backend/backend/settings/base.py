@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     # third parties
     'sekizai',
+    'captcha',
 ]
 
 MIDDLEWARE = [

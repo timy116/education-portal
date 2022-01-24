@@ -29,3 +29,6 @@ if not KOLO_DISABLE:
     MIDDLEWARE += [
         "kolo.middleware.KoloMiddleware",
     ]
+
+# RECAPTCHA settings
+SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
