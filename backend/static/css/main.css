@@ -492,6 +492,19 @@ div#ot-sdk-cookie-policy {
   color: rgba(255, 255, 255, .7);
 }
 
+.form--register--indep-student {
+  background-color: #131022;
+}
+.form--register--indep-student input[type="text"]::placeholder,
+.form--register--indep-student input[type="email"]::placeholder,
+.form--register--indep-student input[type="password"]::placeholder {
+  color: rgba(255, 255, 255, .3);
+}
+
+.form--register--teacher button, .form--register--indep-student button {
+  box-shadow: 0 0.5rem 1.125rem -0.5rem rgba(99, 102, 241, 0.9);
+}
+
 .row--under {
   padding: 0 0 2rem 0;
 }

@@ -126,7 +126,7 @@ class ClassModelManager(models.Manager):
             c = user.student.class_field
             members.append(c.teacher)
             members.extend(c.students.all())
-            
+
         return members
 
 
@@ -146,6 +146,7 @@ class Class(models.Model):
         students = self.students.all()
 
         return students.count() != 0
+
     class Meta:
         verbose_name_plural = "classes"
 

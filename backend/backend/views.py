@@ -14,7 +14,6 @@ def register(request):
 
     teacher_prefix = "teacher_reg"
     ind_prefix = "ind_reg"
-    email_f_name = "teacher_email"
 
     if request.user.is_authenticated:
         ...
@@ -24,11 +23,8 @@ def register(request):
 
     if request.method == "POST":
         # If teacher sign up
-        if f"{teacher_prefix}-{email_f_name}" in request.POST:
-            teacher_form = TeacherRegisterForm(
-                data=request.POST,
-                prefix=teacher_prefix
-            )
+        if f"{teacher_prefix}-email" in request.POST:
+            teacher_form = TeacherRegisterForm(data=request.POST, prefix=teacher_prefix)
 
             if teacher_form.is_valid():
                 data = teacher_form.cleaned_data
@@ -38,15 +34,12 @@ def register(request):
 
         # If independent sign up
         else:
-            ind_form = IndependentStudentRegisterForm(
-                data=request.POST,
-                prefix=ind_prefix
-            )
+            ind_form = IndependentStudentRegisterForm(data=request.POST, prefix=ind_prefix)
 
             if ind_form.is_valid():
                 data = ind_form.cleaned_data
 
-                # Dispatch to Independent handler
+                # Dispatch to independent handler
                 return independent_student_register_form_handler(request, data)
 
     # GET request
@@ -61,7 +54,7 @@ def register(request):
 
 
 def teacher_register_form_handler(request, data):
-    ...
+    request.build_absolute_uri()
 
 
 def independent_student_register_form_handler(request, data):
