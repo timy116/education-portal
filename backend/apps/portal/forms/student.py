@@ -4,9 +4,11 @@ from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 
+from apps.portal.email.helper import is_email_verified
 from apps.portal.helpers.password import (
     PasswordStrength, clean_password_helper
 )
+from . import BaseLoginForm
 
 
 class IndependentStudentRegisterForm(forms.Form):
@@ -50,7 +52,7 @@ class IndependentStudentRegisterForm(forms.Form):
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
 
-        if re.match(re.compile("^[\w ]+$"), name) is None:
+        if re.match(re.compile(r"^[\w ]+$"), name) is None:
             raise forms.ValidationError("姓名只能包含文字、數字、符號('-', '_')與空白字元。")
 
         return name
@@ -58,7 +60,7 @@ class IndependentStudentRegisterForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data.get("username", None)
 
-        if re.match(re.compile("[\w]+"), username) is None:
+        if re.match(re.compile(r"[\w]+"), username) is None:
             raise forms.ValidationError(
                 "使用者名稱(帳號)只能包含文字、數字、符號('-', '_')與空白字元。"
             )
@@ -76,3 +78,12 @@ class IndependentStudentRegisterForm(forms.Form):
             raise forms.ValidationError("Your passwords do not match")
 
         return self.cleaned_data
+
+
+class IndependentStudentLoginForm(BaseLoginForm):
+    username = forms.EmailField(label="使用者名稱", widget=forms.CharField())
+    password = forms.CharField(label="密碼", widget=forms.PasswordInput())
+
+    def confirm_login_allowed(self, user):
+        if not is_email_verified(user):
+            raise self.get_invalid_login_error()
