@@ -81,7 +81,7 @@ class IndependentStudentRegisterForm(forms.Form):
 
 
 class IndependentStudentLoginForm(BaseLoginForm):
-    username = forms.CharField(label="使用者名稱", widget=forms.CharField())
+    username = forms.CharField(label="使用者名稱", widget=forms.TextInput())
     password = forms.CharField(label="密碼", widget=forms.PasswordInput())
 
     def confirm_login_allowed(self, user):

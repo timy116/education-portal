@@ -67,9 +67,17 @@ form input[type="password"]:focus {
   color: #585c7b;
 }
 
-/* Temp style */
 .content {
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), #131022;
+}
+
+.mx-0 {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+section button, section .button {
+    margin: 3rem 2rem 0;
 }
 
 /* end global rules */
@@ -272,6 +280,9 @@ button,
   height: 42px;
 }
 
+.button--shadow {
+  box-shadow: 0 0.5rem 1.125rem -0.5rem rgba(99, 102, 241, 0.9);
+}
 /* button end */
 
 
@@ -422,7 +433,6 @@ div#ot-sdk-cookie-policy {
   padding: 0.9rem 1.5rem 1.1rem 1.5rem;
   margin: 0.5rem 2rem 0 2rem;
   border: 0;
-  box-shadow: 0 0.5rem 1.125rem -0.5rem rgba(99, 102, 241, 0.9);
 }
 
 .footer .external-links {
@@ -495,14 +505,11 @@ div#ot-sdk-cookie-policy {
 .form--register--indep-student {
   background-color: #131022;
 }
+
 .form--register--indep-student input[type="text"]::placeholder,
 .form--register--indep-student input[type="email"]::placeholder,
 .form--register--indep-student input[type="password"]::placeholder {
   color: rgba(255, 255, 255, .3);
-}
-
-.form--register--teacher button, .form--register--indep-student button {
-  box-shadow: 0 0.5rem 1.125rem -0.5rem rgba(99, 102, 241, 0.9);
 }
 
 .row--under {
@@ -536,6 +543,22 @@ div#ot-sdk-cookie-policy {
 }
 
 /* register page end */
+
+/* login page start */
+.form--login {
+  margin: 3rem auto 5rem;
+  padding: 3rem 0;
+  text-align: center;
+  width: 40%;
+}
+
+.form--login label {
+  rgba(255, 255, 255, .7);
+}
+
+/* login page end */
+
+
 /* media rules */
 /* menu start */
 @media (min-width: 1200px) {
