@@ -53,6 +53,9 @@ class IndependentStudentRegisterForm(forms.Form):
     def clean_name(self):
         name = self.cleaned_data.get("name", None)
 
+        if name is None or len(name.strip()) == 0:
+            raise forms.ValidationError("此欄位不可空白。")
+
         if re.match(re.compile(r"^[\w ]+$"), name) is None:
             raise forms.ValidationError("姓名只能包含文字、數字、符號('-', '_')與空白字元。")
 
@@ -61,6 +64,8 @@ class IndependentStudentRegisterForm(forms.Form):
     def clean_username(self):
         username = self.cleaned_data.get("username", None)
 
+        if username is None or len(username.strip()) == 0:
+            raise forms.ValidationError("此欄位不可空白。")
         if re.match(re.compile(r"[\w]+"), username) is None:
             raise forms.ValidationError("使用者名稱(帳號)只能包含文字、數字、符號('-', '_')與空白字元。")
         if Student.objects.is_username_already_used(username):
@@ -71,6 +76,8 @@ class IndependentStudentRegisterForm(forms.Form):
     def clean_email(self):
         email = self.cleaned_data.get("email", None)
 
+        if email is None:
+            raise forms.ValidationError("此欄位不可空白。")
         if Student.objects.is_email_already_used(email):
             raise forms.ValidationError("此電子郵件地址已被使用。")
 

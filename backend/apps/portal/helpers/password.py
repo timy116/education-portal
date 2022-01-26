@@ -29,7 +29,7 @@ class PasswordStrength(Enum):
             and (not upper or re.search(r"[A-Z]", password))
             and (not lower or re.search(r"[a-z]", password))
             and (not numbers or re.search(r"[0-9]", password))
-            and (not special_char or re.search(r"[!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?]", password))
+            and (not special_char or re.search(r"[\W]", password))
             and (password not in MOST_USED_PASSWORDS)
         )
 
@@ -43,7 +43,7 @@ class PasswordStrength(Enum):
             minimum_password_length = 10
             special_char = True
 
-        # 獨立學習者密碼長度需要 8
+        # 獨立學生密碼長度需要 8
         elif self is PasswordStrength.INDEPENDENT:
             minimum_password_length = 8
 

@@ -3,7 +3,7 @@ from django.shortcuts import render
 from ..email import send_verification_email
 from ..forms.student import IndependentStudentRegisterForm
 from ..forms.teacher import TeacherRegisterForm
-from ..models import Student
+from ..models import Student, Teacher
 
 
 def register(request):
@@ -53,7 +53,15 @@ def register(request):
 
 
 def teacher_register_form_handler(request, data):
-    ...
+    teacher = Teacher.objects.factory(
+        first_name=data["first_name"],
+        last_name=data["last_name"],
+        email=data["email"],
+        password=data["password"],
+    )
+    send_verification_email(request, teacher.user)
+
+    return render(request, "email/email_verification.html", context={"is_teacher": True})
 
 
 def independent_student_register_form_handler(request, data):

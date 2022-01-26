@@ -13,6 +13,7 @@ from apps.portal.helpers.password import (
 )
 from apps.portal.models import Teacher
 from . import BaseLoginForm
+from ..models import Teacher
 
 
 def check_passwords(password, confirm_password):
@@ -63,6 +64,24 @@ class TeacherRegisterForm(forms.Form):
         ),
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+
+    def clean_first_name(self):
+        first_name = self.cleaned_data.get("first_name", None)
+
+        if first_name is None or len(first_name.strip()) == 0:
+            raise forms.ValidationError("此欄位不可空白。")
+
+    def clean_last_name(self):
+        last_name = self.cleaned_data.get("last_name", None)
+
+        if last_name is None or len(last_name.strip()) == 0:
+            raise forms.ValidationError("此欄位不可空白。")
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", None)
+
+        if Teacher.objects.is_email_already_used(email):
+            raise forms.ValidationError("此電子郵件地址已被使用。")
 
     def clean_password(self):
         return clean_password_helper(self, "password", PasswordStrength.TEACHER)

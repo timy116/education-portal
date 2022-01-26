@@ -78,6 +78,9 @@ class TeacherManager(models.Manager):
 
         return Teacher.objects.create(user=user_profile, new_user=user)
 
+    def is_email_already_used(self, email) -> bool:
+        return email and self.filter(user__email=email).exists()
+
 
 class Teacher(models.Model):
     user_profile = models.OneToOneField(to=UserProfile, on_delete=models.CASCADE)
