@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+  <div id="teacher_login_page"></div>
+
+  <section class="row mx-0">
+    <div class="is-flex form--register--teacher form--login">
+      <div class="form center-block col-xs-12 col-sm-8 col-md-8 col-lg-9 ">
+        <h4 class="center-block">老師登入</h4>
+
+        <form id="teacher_login_form" action="." method="post">
+          {% csrf_token %}
+          {{ form.non_field_errors }}
+
+          <label for="id_{{ form.username.html_name }}">{{ form.username.label }}</label>
+          {{ form.username }}
+          {{ form.username.errors }}
+
+          <label for="id_{{ form.password.html_name }}">{{ form.password.label }}</label>
+          {{ form.password }}
+          {{ form.password.errors }}
+
+          {{ form.captcha }}
+
+          <button type="submit" name="teacher_login"
+                  class="button button--primary button--home button--shadow">登入
+          </button>
+        </form>
+
+        <p><strong>忘記密碼了嗎?</strong></p>
+        <p>您可以 <a id="teacher_forgotten_password_button" href="#">重新設定密碼</a></p>
+      </div>
+    </div>
+  </section>
+{% endblock %}
