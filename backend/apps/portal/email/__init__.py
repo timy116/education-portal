@@ -29,7 +29,7 @@ def send_email(sender: str, recipients: list, subject: str, text_content: str, h
     message.send()
 
 
-def send_verification_email(request, user: User, changed_email=None):
+def send_verification_email(request, user: User, is_changed_email=None):
     """
     :param request: HTTP request
     :param user: User object
@@ -39,7 +39,7 @@ def send_verification_email(request, user: User, changed_email=None):
     Send an email to verify user's account.
     """
 
-    if not changed_email:
+    if not is_changed_email:
         user.email_verifications.all().deleete()
         verification = generate_token(user)
         message = email_verification(request, verification.token)

@@ -1,7 +1,9 @@
 from django.shortcuts import render
 
+from ..email import send_verification_email
 from ..forms.student import IndependentStudentRegisterForm
 from ..forms.teacher import TeacherRegisterForm
+from ..models import Student
 
 
 def register(request):
@@ -55,4 +57,12 @@ def teacher_register_form_handler(request, data):
 
 
 def independent_student_register_form_handler(request, data):
-    ...
+    student = Student.objects.independent_student_factory(
+        username=data["username"],
+        email=data["email"],
+        password=data["password"],
+        name=data["name"]
+    )
+    send_verification_email(request, student.user)
+
+    return render(request, "email/email_verification.html", context={"is_teacher": False})
