@@ -8,6 +8,7 @@ from apps.portal.email.helper import is_email_verified
 from apps.portal.helpers.password import (
     PasswordStrength, clean_password_helper
 )
+from ..models import Student
 from . import BaseLoginForm
 
 
@@ -61,11 +62,17 @@ class IndependentStudentRegisterForm(forms.Form):
         username = self.cleaned_data.get("username", None)
 
         if re.match(re.compile(r"[\w]+"), username) is None:
-            raise forms.ValidationError(
-                "使用者名稱(帳號)只能包含文字、數字、符號('-', '_')與空白字元。"
-            )
+            raise forms.ValidationError("使用者名稱(帳號)只能包含文字、數字、符號('-', '_')與空白字元。")
+        if Student.objects.is_username_already_used(username):
+            raise forms.ValidationError("此使用者名稱已被使用。")
 
         return username
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email", None)
+
+        if Student.objects.is_email_already_used(email):
+            raise forms.ValidationError("此電子郵件地址已被使用。")
 
     def clean_password(self):
         return clean_password_helper(self, "password", PasswordStrength.INDEPENDENT)

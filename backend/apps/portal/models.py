@@ -196,6 +196,12 @@ class StudentManager(models.Manager):
             student for student in Student.objects.all() if student.is_independent()
         ]
 
+    def is_email_already_used(self, email: str) -> bool:
+        return email and self.filter(class_field=None, user__email=email).exists()
+
+    def is_username_already_used(self, username: str) -> bool:
+        return username and self.filter(class_field=None, user__username=username).exists()
+
 
 class Student(models.Model):
     # For unique direct login url
@@ -221,9 +227,3 @@ class Student(models.Model):
 
     def is_independent(self) -> bool:
         return not self.class_field
-
-    def is_email_already_used(self, email: str) -> bool:
-        return email and self.objects.filter(user__email=email).exists()
-
-    def is_username_already_used(self, username: str) -> bool:
-        return username and self.objects.filter(user__username=username).exists()

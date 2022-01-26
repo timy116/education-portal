@@ -32,3 +32,48 @@ if not KOLO_DISABLE:
 
 # RECAPTCHA settings
 SILENCED_SYSTEM_CHECKS = ['captcha.recaptcha_test_key_error']
+
+# Logging settings
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue'
+        },
+    },
+    'formatters': {
+        'simple': {
+            'format': 'X X %(levelname)s [%(asctime)s] %(message)s',
+            'datefmt': '%d/%b/%Y:%H:%M:%S %z'
+        },
+    },
+    'handlers': {
+        'log': {
+            'level': 'DEBUG',
+            'formatter': 'simple',
+            'class': 'logging.StreamHandler',
+        },
+        'db_log': {
+            'level': 'DEBUG',
+            'formatter': 'simple',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'rules': {
+            'handlers': [],
+            'level': 'INFO',
+        },
+        'signup': {
+            'handlers': [],
+            'level': 'INFO',
+        },
+        'django.db.backends': {
+            'handlers': ['db_log'],
+            'level': 'DEBUG',
+            'propagate': False
+        },
+    },
+}
