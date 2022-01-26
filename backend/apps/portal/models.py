@@ -200,9 +200,7 @@ class StudentManager(models.Manager):
 class Student(models.Model):
     # For unique direct login url
     login_id = models.CharField(max_length=64, null=True)
-    class_field = models.ForeignKey(
-        Class, related_name="students", null=True, on_delete=models.CASCADE
-    )
+    class_field = models.ForeignKey(Class, related_name="students", null=True, on_delete=models.CASCADE)
     user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     user = models.OneToOneField(
         User,
@@ -223,3 +221,9 @@ class Student(models.Model):
 
     def is_independent(self) -> bool:
         return not self.class_field
+
+    def is_email_already_used(self, email: str) -> bool:
+        return email and self.objects.filter(user__email=email).exists()
+
+    def is_username_already_used(self, username: str) -> bool:
+        return username and self.objects.filter(user__username=username).exists()

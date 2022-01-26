@@ -6,7 +6,7 @@ from ..forms.teacher import TeacherRegisterForm
 
 def register(request):
     """
-    註冊分為老師(Teacher) 和 獨立學習者(Independent)
+    註冊分為老師(Teacher) 和 獨立學生(Independent)
     """
 
     teacher_prefix = "teacher_reg"
