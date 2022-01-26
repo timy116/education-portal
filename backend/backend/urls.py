@@ -4,13 +4,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from .views import index, register
+from .views import index
 
 urlpatterns = [
     url(r"^$", index, name="index"),
-    url(r"^register/$", register, name="register"),
     path('admin/', admin.site.urls),
-    url(r"^", include("apps.portal.urls")),
+    url(r"^", include("apps.portal.url.urls")),
 ]
 
 if settings.DEBUG:
