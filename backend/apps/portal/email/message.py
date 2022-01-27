@@ -11,7 +11,6 @@ def signature_line(request):
     )
 
 
-
 def generate_message(request, subject, text_content):
     return {
         "subject": f"{SUBJECT_PREFIX}: {subject}",
@@ -26,7 +25,7 @@ def email_verification(request, token):
     subject = "電子郵件地址驗證"
     text_content = (
         f"請點擊此連結 "
-        f"{request.build_absolute_uri(reverse('', kwargs={'token': token}))} "
+        f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
         f"來驗證您的電子郵件地址。"
     )
 
