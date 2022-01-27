@@ -11,8 +11,10 @@ from apps.portal.helpers.password import (
     PasswordStrength,
     clean_password_helper
 )
-from apps.portal.models import Teacher
 from . import BaseLoginForm
+from ..fields import (
+    CharField, NameRegexField, EmailField
+)
 from ..models import Teacher
 
 
@@ -29,53 +31,44 @@ class TeacherRegisterForm(forms.Form):
     """
     Register form for teacher.
     """
+    error_messages = {
+        'required': '此欄位必填。',
+    }
 
-    first_name = forms.CharField(
+    first_name = NameRegexField(
         max_length=100,
         help_text="請輸入您的名字",
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "小明"}
         ),
     )
-    last_name = forms.CharField(
+    last_name = NameRegexField(
         max_length=100,
         help_text="請輸入您的姓氏",
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "王"}
         ),
     )
-    email = forms.EmailField(
+    email = EmailField(
         help_text="請輸入您的電子郵件地址",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off",
                    "placeholder": "user@example.com"}
         ),
     )
-    password = forms.CharField(
+    password = CharField(
         help_text="請輸入密碼",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "長度至少 10 個字元"}
         ),
     )
-    confirm_password = forms.CharField(
+    confirm_password = CharField(
         help_text="請再次輸入密碼",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼"}
         ),
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
-
-    def clean_first_name(self):
-        first_name = self.cleaned_data.get("first_name", None)
-
-        if first_name is None or len(first_name.strip()) == 0:
-            raise forms.ValidationError("此欄位不可空白。")
-
-    def clean_last_name(self):
-        last_name = self.cleaned_data.get("last_name", None)
-
-        if last_name is None or len(last_name.strip()) == 0:
-            raise forms.ValidationError("此欄位不可空白。")
 
     def clean_email(self):
         email = self.cleaned_data.get("email", None)

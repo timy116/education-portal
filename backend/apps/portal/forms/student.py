@@ -1,5 +1,3 @@
-import re
-
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
@@ -8,12 +6,13 @@ from apps.portal.email.helper import is_email_verified
 from apps.portal.helpers.password import (
     PasswordStrength, clean_password_helper
 )
-from ..models import Student
 from . import BaseLoginForm
+from ..fields import (CharField, NameRegexField, UsernameRegexField, EmailField)
+from ..models import Student
 
 
 class IndependentStudentRegisterForm(forms.Form):
-    name = forms.CharField(
+    name = NameRegexField(
         max_length=100,
         help_text="請輸入您的大名",
         widget=forms.TextInput(
@@ -21,27 +20,27 @@ class IndependentStudentRegisterForm(forms.Form):
         ),
     )
 
-    username = forms.CharField(
+    username = UsernameRegexField(
         max_length=100,
         help_text="請輸入使用者名稱(帳號)",
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "xiaoMing123"}
         ),
     )
-    email = forms.EmailField(
+    email = EmailField(
         help_text="請輸入您的電子郵件地址",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off", "placeholder": "user@example.com"}
         ),
     )
-    password = forms.CharField(
+    password = CharField(
         help_text="請輸入密碼",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "長度至少 8 個字元"}
         ),
     )
 
-    confirm_password = forms.CharField(
+    confirm_password = CharField(
         help_text="請再次輸入密碼",
         widget=forms.PasswordInput(
             attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼"}
@@ -50,34 +49,17 @@ class IndependentStudentRegisterForm(forms.Form):
 
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
-    def clean_name(self):
-        name = self.cleaned_data.get("name", None)
-
-        if name is None or len(name.strip()) == 0:
-            raise forms.ValidationError("此欄位不可空白。")
-
-        if re.match(re.compile(r"^[\w ]+$"), name) is None:
-            raise forms.ValidationError("姓名只能包含文字、數字、符號('-', '_')與空白字元。")
-
-        return name
-
     def clean_username(self):
-        username = self.cleaned_data.get("username", None)
+        username = self.cleaned_data["username"]
 
-        if username is None or len(username.strip()) == 0:
-            raise forms.ValidationError("此欄位不可空白。")
-        if re.match(re.compile(r"[\w]+"), username) is None:
-            raise forms.ValidationError("使用者名稱(帳號)只能包含文字、數字、符號('-', '_')與空白字元。")
         if Student.objects.is_username_already_used(username):
             raise forms.ValidationError("此使用者名稱已被使用。")
 
         return username
 
     def clean_email(self):
-        email = self.cleaned_data.get("email", None)
+        email = self.cleaned_data["email"]
 
-        if email is None:
-            raise forms.ValidationError("此欄位不可空白。")
         if Student.objects.is_email_already_used(email):
             raise forms.ValidationError("此電子郵件地址已被使用。")
 
@@ -85,10 +67,10 @@ class IndependentStudentRegisterForm(forms.Form):
         return clean_password_helper(self, "password", PasswordStrength.INDEPENDENT)
 
     def clean(self):
-        password = self.cleaned_data.get("password", None)
-        confirm_password = self.cleaned_data.get("confirm_password", None)
+        password = self.cleaned_data["password"]
+        confirm_password = self.cleaned_data["confirm_password"]
 
-        if password and confirm_password and password != confirm_password:
+        if password != confirm_password:
             raise forms.ValidationError("Your passwords do not match")
 
         return self.cleaned_data
