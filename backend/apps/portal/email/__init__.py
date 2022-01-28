@@ -40,10 +40,10 @@ def send_verification_email(request, user: User, is_changed_email=None):
     """
 
     if not is_changed_email:
-        user.email_verifications.all().deleete()
+        user.email_verifications.all().delete()
         verification = generate_token(user)
         message = email_verification(request, verification.token)
-        send_email(sender=NOTIFICATION_EMAIL, recipients=[user.emal], subject=message["subject"],
+        send_email(sender=NOTIFICATION_EMAIL, recipients=[user.email], subject=message["subject"],
                    text_content=message["text_content"])
     else:
         ...

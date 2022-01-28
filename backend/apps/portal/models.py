@@ -76,7 +76,7 @@ class TeacherManager(models.Manager):
         )
         user_profile = UserProfile.objects.create(user=user)
 
-        return Teacher.objects.create(user=user_profile, new_user=user)
+        return Teacher.objects.create(user_profile=user_profile, user=user)
 
     def is_email_already_used(self, email) -> bool:
         return email and self.filter(user__email=email).exists()

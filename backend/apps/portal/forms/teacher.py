@@ -71,10 +71,12 @@ class TeacherRegisterForm(forms.Form):
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_email(self):
-        email = self.cleaned_data.get("email", None)
+        email = self.cleaned_data["email"]
 
         if Teacher.objects.is_email_already_used(email):
             raise forms.ValidationError("此電子郵件地址已被使用。")
+
+        return email
 
     def clean_password(self):
         return clean_password_helper(self, "password", PasswordStrength.TEACHER)
