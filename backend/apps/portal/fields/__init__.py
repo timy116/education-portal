@@ -10,7 +10,7 @@ ERROR_MESSAGES = {
 
 class CharField(forms.CharField):
     def __init__(self, **kwargs):
-        super().__init__(rror_messages=ERROR_MESSAGES, **kwargs)
+        super().__init__(error_messages=ERROR_MESSAGES, **kwargs)
 
 
 class NameRegexField(forms.RegexField):

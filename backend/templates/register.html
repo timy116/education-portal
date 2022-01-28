@@ -53,6 +53,7 @@
             <div class="input--icon">
               {{ teacher_form.password }} <span class="iconify" data-icon="mdi:security"></span>
             </div>
+            {{ teacher_form.password.errors }}
           </div>
 
           {% comment %} confirm password input {% endcomment %}
@@ -62,7 +63,7 @@
             <div class="input--icon">
               {{ teacher_form.confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
             </div>
-
+            {{ teacher_form.confirm_password.errors }}
           </div>
 
           {% comment %} row under {% endcomment %}

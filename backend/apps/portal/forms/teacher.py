@@ -39,33 +39,33 @@ class TeacherRegisterForm(forms.Form):
         max_length=100,
         help_text="請輸入您的名字",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "小明"}
+            attrs={"autocomplete": "off", "placeholder": "小明", "class": ""}
         ),
     )
     last_name = NameRegexField(
         max_length=100,
         help_text="請輸入您的姓氏",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "王"}
+            attrs={"autocomplete": "off", "placeholder": "王", "class": ""}
         ),
     )
     email = EmailField(
         help_text="請輸入您的電子郵件地址",
         widget=forms.EmailInput(
             attrs={"autocomplete": "off",
-                   "placeholder": "user@example.com"}
+                   "placeholder": "user@example.com", "class": ""}
         ),
     )
     password = CharField(
         help_text="請輸入密碼",
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "長度至少 10 個字元"}
+            attrs={"autocomplete": "off", "placeholder": "長度至少 10 個字元", "class": ""}
         ),
     )
     confirm_password = CharField(
         help_text="請再次輸入密碼",
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼"}
+            attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼", "class": ""}
         ),
     )
     captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)

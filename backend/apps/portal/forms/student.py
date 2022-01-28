@@ -16,7 +16,7 @@ class IndependentStudentRegisterForm(forms.Form):
         max_length=100,
         help_text="請輸入您的大名",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "王小明"}
+            attrs={"autocomplete": "off", "placeholder": "王小明", "class": "" }
         ),
     )
 
@@ -24,26 +24,26 @@ class IndependentStudentRegisterForm(forms.Form):
         max_length=100,
         help_text="請輸入使用者名稱(帳號)",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "xiaoMing123"}
+            attrs={"autocomplete": "off", "placeholder": "xiaoMing123", "class": ""}
         ),
     )
     email = EmailField(
         help_text="請輸入您的電子郵件地址",
         widget=forms.EmailInput(
-            attrs={"autocomplete": "off", "placeholder": "user@example.com"}
+            attrs={"autocomplete": "off", "placeholder": "user@example.com", "class": ""}
         ),
     )
     password = CharField(
         help_text="請輸入密碼",
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "長度至少 8 個字元"}
+            attrs={"autocomplete": "off", "placeholder": "長度至少 8 個字元", "class": ""}
         ),
     )
 
     confirm_password = CharField(
         help_text="請再次輸入密碼",
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼"}
+            attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼", "class": ""}
         ),
     )
 

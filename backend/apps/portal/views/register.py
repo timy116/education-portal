@@ -30,6 +30,9 @@ def register(request):
 
                 # Dispatch to teacher handler
                 return teacher_register_form_handler(request, data)
+            else:
+                for field in teacher_form.errors:
+                    teacher_form[field].field.widget.attrs["class"] += " has-error"
 
         # If independent sign up
         else:
@@ -40,6 +43,9 @@ def register(request):
 
                 # Dispatch to independent handler
                 return independent_student_register_form_handler(request, data)
+            else:
+                for field in ind_form.errors:
+                    ind_form[field].field.widget.attrs["class"] += " has-error"
 
     # GET request
     return render(
