@@ -23,6 +23,7 @@ def register(request):
     if request.method == "POST":
         # If teacher sign up
         if f"{teacher_prefix}-email" in request.POST:
+            print(request.POST)
             teacher_form = TeacherRegisterForm(data=request.POST, prefix=teacher_prefix)
 
             if teacher_form.is_valid():
@@ -31,7 +32,10 @@ def register(request):
                 # Dispatch to teacher handler
                 return teacher_register_form_handler(request, data)
             else:
+                print(teacher_form.errors)
                 for field in teacher_form.errors:
+                    if field == "captcha":
+                        continue
                     teacher_form[field].field.widget.attrs["class"] += " has-error"
 
         # If independent sign up

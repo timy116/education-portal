@@ -1,10 +1,10 @@
 from django import forms
 
 ERROR_MESSAGES = {
-    'required': '此欄位必填。',
-    "min_length": '此欄位長度最少需 %(limit_value)d 個字元。',
-    "max_length": '此欄位長度最多 %(limit_value)d 個字元。',
-    'invalid': '檢測到無效字元。',
+    "required": "此欄位必填。",
+    "min_length": "此欄位長度最少需 %(limit_value)d 個字元。",
+    "max_length": "此欄位長度最多 %(limit_value)d 個字元。",
+    "invalid": "檢測到無效字元。",
 }
 
 

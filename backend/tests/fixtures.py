@@ -35,7 +35,6 @@ def client():
             return BeautifulSoup(response.render().content, "lxml")
 
         def post_soup(self, *args, **kwargs):
-            kwargs["follow"] = True
             response = self.post(*args, **kwargs)
 
             try:

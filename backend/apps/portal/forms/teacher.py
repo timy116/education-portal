@@ -36,14 +36,14 @@ class TeacherRegisterForm(forms.Form):
     }
 
     first_name = NameRegexField(
-        max_length=100,
+        max_length=15,
         help_text="請輸入您的名字",
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "小明", "class": ""}
         ),
     )
     last_name = NameRegexField(
-        max_length=100,
+        max_length=10,
         help_text="請輸入您的姓氏",
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "王", "class": ""}
