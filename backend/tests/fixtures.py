@@ -25,9 +25,13 @@ def outbox():
 
 @pytest.fixture
 def client():
-    from django.test.client import Client
+    from django.test.client import Client, RequestFactory
 
     class _Client(Client):
+
+        def __init__(self, enforce_csrf_checks=False, **defaults):
+            super().__init__(enforce_csrf_checks, **defaults)
+            self.factory = RequestFactory()
 
         def get_soup(self, *args, **kwargs):
             response = self.get(*args, **kwargs)

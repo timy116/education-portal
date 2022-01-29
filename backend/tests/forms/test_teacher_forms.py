@@ -149,5 +149,4 @@ def test_register_successful(client, register_form, outbox):
     resp = client.post(path=reverse("register"), data=register_form)
 
     assert resp.context["is_teacher"] == True
-    assert len(outbox) == 1
-    assert outbox[0].subject == f"{SUBJECT_PREFIX}: 電子郵件地址驗證"
+    assert resp.context["obj"] is not None

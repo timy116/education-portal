@@ -1,6 +1,8 @@
 from django.urls import reverse
 
+SUBJECT_TEMPLATE = "%(prefix)s: %(subject)s"
 SUBJECT_PREFIX = "Education Portal"
+EMAIL_VERIFICATION_SUBJECT = "電子郵件地址驗證"
 
 
 def signature_line(request):
@@ -13,7 +15,7 @@ def signature_line(request):
 
 def generate_message(request, subject, text_content):
     return {
-        "subject": f"{SUBJECT_PREFIX}: {subject}",
+        "subject": SUBJECT_TEMPLATE % {"prefix": SUBJECT_PREFIX, "subject": subject},
         "text_content": (
             f"{text_content}"
             f"{signature_line(request)}"
@@ -22,7 +24,7 @@ def generate_message(request, subject, text_content):
 
 
 def email_verification(request, token):
-    subject = "電子郵件地址驗證"
+    subject = EMAIL_VERIFICATION_SUBJECT
     text_content = (
         f"請點擊此連結 "
         f"{request.build_absolute_uri(reverse('verify_email', kwargs={'token': token}))} "
