@@ -3,6 +3,7 @@ from uuid import uuid4
 
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 from django_countries.fields import CountryField
 
@@ -10,7 +11,7 @@ User = get_user_model()
 
 
 class UserProfile(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)
+    user = models.OneToOneField(to=User, on_delete=models.CASCADE)
     can_view_aggregated_data = models.BooleanField(default=False)
     developer = models.BooleanField(default=False)
     awaiting_email_verification = models.BooleanField(default=False)
@@ -24,6 +25,16 @@ class UserProfile(models.Model):
         return now - timedelta(days=7) <= self.user.date_joined
 
 
+class EmailVerificationManager(models.Manager):
+
+    def is_verification_failed(self, verifications: QuerySet) -> bool:
+        return (
+                len(verifications) != 1
+                or verifications[0].verified
+                or (verifications[0].expiry - timezone.now()) < timedelta()
+        )
+
+
 class EmailVerification(models.Model):
     user = models.ForeignKey(
         to=User, on_delete=models.CASCADE, related_name="email_verifications", null=True, blank=True
@@ -33,6 +44,8 @@ class EmailVerification(models.Model):
                              default=None, blank=True)
     expiry = models.DateTimeField()
     verified = models.BooleanField(default=False)
+
+    objects = EmailVerificationManager()
 
     def __str__(self):
         return f"Email verification for {self.user.username}, ({self.email})"
@@ -212,8 +225,8 @@ class Student(models.Model):
     class_field = models.ForeignKey(Class, related_name="students", null=True, on_delete=models.CASCADE)
     user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE)
     user = models.OneToOneField(
-        User,
-        related_name="new_student",
+        to=User,
+        related_name="student",
         null=True,
         blank=True,
         on_delete=models.CASCADE,

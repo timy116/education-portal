@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+  <section class="row mx-0">
+    <div class="is-flex form--register form--register--teacher">
+      <div class="form center-block col-xs-12 col-sm-8 col-md-8 col-lg-9">
+        <h4>您的電子郵件地址驗證失敗</h4>
+        <img class="background" title="Sad Face" alt="Verification failure" src="{% static 'img/sad_face.png' %}">
+        <p>
+          您的驗證連結無效或已經過期。
+        </p>
+        <a id="home_button" href="{% url 'index' %}">返回首頁</a>
+
+      </div>
+    </div>
+  </section>
+{% endblock %}
