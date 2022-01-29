@@ -80,6 +80,11 @@ section button, section .button {
   margin: 3rem 2rem 0;
 }
 
+.background {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
 /* end global rules */
 
 
@@ -303,6 +308,10 @@ button,
   -ms-flex-wrap: wrap;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+}
+
+.is-flex img {
+  align-self: center;
 }
 
 .is-flex-item {

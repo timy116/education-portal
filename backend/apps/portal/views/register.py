@@ -69,7 +69,7 @@ def teacher_register_form_handler(request, data):
     )
     send_verification_email(request, teacher.user)
 
-    return render(request, "email/email_verification.html", context={"is_teacher": True})
+    return render(request, "email/email_verification.html", context={"is_teacher": True, "obj": teacher.user})
 
 
 def independent_student_register_form_handler(request, data):
@@ -81,4 +81,4 @@ def independent_student_register_form_handler(request, data):
     )
     send_verification_email(request, student.user)
 
-    return render(request, "email/email_verification.html", context={"is_teacher": False})
+    return render(request, "email/email_verification.html", context={"is_teacher": False, "obj": student.user})

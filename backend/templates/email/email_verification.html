@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+  <section class="row mx-0">
+    {% if is_teacher %}
+      <div class="is-flex form--register form--register--teacher">
+    {% else %}
+      <div class="is-flex form--login form--register--indep-student">
+    {% endif %}
+    <div class="form center-block col-xs-12 col-sm-8 col-md-8 col-lg-9">
+      {% if obj %}
+        <h4>驗證您的電子郵件地址</h4>
+        <img class="background" title="Paper Plane" alt="Verification email sent"
+             src="{% static 'img/paper_plane.png' %}">
+        <p>
+          已經將驗證信件寄至您的電子郵件信箱。<br>
+          請點擊信件內容中的驗證連結，以啟用您的帳號，謝謝。
+        </p>
+        <p>如果您沒有收到信件，請確認是否出現在垃圾信件內。</p>
+        <a id="home_button" href="{% url 'index' %}">返回首頁</a>
+      {% else %}
+        <h4>錯誤: 您以不正確的方式進入此頁</h4>
+        <p>
+          如果您以正常的工作流程進入此頁，是不會看到此錯誤訊息的。<br>
+        </p>
+        <a id="home_button" href="{% url 'index' %}">返回首頁</a>
+      {% endif %}
+    </div>
+    </div>
+  </section>
+{% endblock %}
