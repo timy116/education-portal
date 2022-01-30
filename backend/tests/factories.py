@@ -1,9 +1,10 @@
+import datetime
 import threading
 import uuid
+
 import factory
 from django.conf import settings
 from django.utils import timezone
-import datetime
 
 
 class Factory(factory.django.DjangoModelFactory):
@@ -58,4 +59,4 @@ class TeacherFactory(Factory):
         model = "portal.Teacher"
 
     user_profile = factory.SubFactory("tests.factories.UserProfileFactory")
-    user = factory.SubFactory("tests.factories.UserFactory")
+    user = factory.LazyAttribute(lambda obj: obj.user_profile.user)

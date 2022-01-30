@@ -13,9 +13,9 @@ class VerifyEmailView(TemplateView):
 
 
 def verify_email(request, token):
-    verification = EmailVerification.objects.filter(token=token)
+    verifications = EmailVerification.objects.filter(token=token)
 
-    if EmailVerification.objects.is_verification_failed(verification):
+    if EmailVerification.objects.is_verification_failed(verifications):
         return render(request, "email/email_verification_failed.html")
 
     verification = verifications[0]
@@ -31,7 +31,7 @@ def verify_email(request, token):
             user.username = verification.email
 
         user.save()
-        user.email_verfications.exclude(email=user.email).delete()
+        user.email_verifications.exclude(email=user.email).delete()
         messages.success(request, message="您的電子郵件地址已驗證完成，請登入。")
 
         if independent_student_login(user):

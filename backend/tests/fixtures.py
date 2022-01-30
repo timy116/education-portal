@@ -1,5 +1,6 @@
 import pytest
 from bs4 import BeautifulSoup
+from django.http import HttpResponse
 
 
 class Object:
@@ -35,6 +36,9 @@ def client():
 
         def get_soup(self, *args, **kwargs):
             response = self.get(*args, **kwargs)
+
+            if isinstance(response, HttpResponse):
+                return BeautifulSoup(response.content, "lxml")
 
             return BeautifulSoup(response.render().content, "lxml")
 
