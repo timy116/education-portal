@@ -40,6 +40,31 @@
 
       {% comment %} messages {% endcomment %}
       <div id="messages">
+        {% if messages %}
+          <div class="sub-nav--message">
+            {% for message in messages %}
+              <div class="sub-nav {{ message.tags }}">
+                <div class="container">
+                  <div class="row">
+                    <div class="d-flex col-sm-12 align-items-center">
+                      {% if 'error' in message.tags or 'warning' in message.tags %}
+                        <span class="material-icons-outlined md-32">error</span>
+                      {% else %}
+                        <span class="material-icons-outlined md-32">info</span>
+                      {% endif %}
+                      <p class="flex-grow-1">
+                        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+                      </p>
+                      <a class="x-icon"><span class="sr-only">Close</span> <span class="iconify"
+                                                                                 data-icon="mdi:close"></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+          </div>
+        {% endif %}
       </div>
 
       {% comment %} content_div {% endcomment %}
@@ -72,9 +97,28 @@
 <script src="{% static 'js/vendor/jquery-placeholder-2.0.8.js' %}"></script>
 <script src="{% static 'js/vendor/jquery-colorbox-1.5.13.js' %}"></script>
 <script src="{% static 'js/vendor/iconify-2.0.3.js' %}"></script>
+<script>
+  const messageContainerEl = document.querySelector("#messages")
+  const messageEl = document.querySelector(".sub-nav--message")
+  const messageCloseEl = document.querySelector(".sub-nav .x-icon")
 
+  if(messageEl) {
+    setTimeout(() => {
+      messageContainerEl.classList.add("d-invisibility")
+
+      setTimeout(() => messageContainerEl.classList.add("d-none"), 1100)
+    }, 5000)
+  }
+
+  if(messageCloseEl) {
+    messageCloseEl.addEventListener("click", ()=> {
+      messageContainerEl.classList.add("d-invisibility")
+
+      setTimeout(() => messageContainerEl.classList.add("d-none"), 1100)
+    })
+  }
+</script>
 {% block scripts %}
 {% endblock scripts %}
 </body>
-
 </html>

@@ -85,6 +85,54 @@ section button, section .button {
   padding-bottom: 3rem;
 }
 
+/* message style */
+#messages {
+  transition: opacity 1s ease-in-out;
+  opacity: 1;
+}
+
+.d-invisibility {
+  opacity: 0 !important;
+}
+
+.d-none {
+  display: none;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+.sub-nav {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  padding: 0 2rem;
+}
+
+.sub-nav--message {
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #614092;
+  color: #fff;
+  border-radius: 0.75rem;
+  z-index: 1000;
+}
+
+.sub-nav .material-icons-outlined.md-32 {
+  font-size: 3.2rem;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.sub-nav .x-icon:hover {
+  cursor: pointer;
+}
+
 /* end global rules */
 
 
