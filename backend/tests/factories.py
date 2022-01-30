@@ -60,3 +60,12 @@ class TeacherFactory(Factory):
 
     user_profile = factory.SubFactory("tests.factories.UserProfileFactory")
     user = factory.LazyAttribute(lambda obj: obj.user_profile.user)
+
+
+class StudentFactory(Factory):
+    class Meta:
+        strategy = factory.CREATE_STRATEGY
+        model = "portal.Student"
+
+    user_profile = factory.SubFactory("tests.factories.UserProfileFactory")
+    user = factory.LazyAttribute(lambda obj: obj.user_profile.user)
