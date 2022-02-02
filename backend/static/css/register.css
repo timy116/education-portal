@@ -1,0 +1,114 @@
+.d-flex {
+  display: flex !important;
+}
+
+.flex-column {
+  flex-direction: column !important;
+}
+
+.semi-bold {
+  font-weight: 500;
+}
+
+.form-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.form-div > form {
+  height: 100%;
+}
+
+.form--row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.form--register {
+  padding: 3rem 5rem;
+  text-align: center;
+  border-radius: 0.75rem;
+}
+
+.form--register .errorlist {
+  font-size: 1.4rem;
+  color: #d60026;
+  font-style: italic;
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+.form--register .has-error {
+  border-color: #d60026;;
+  box-shadow: inset 0 1px 1px rgb(0, 0, 0, 0.08);
+}
+
+.form--register .has-error:focus {
+  box-shadow: inset 0 1px 1px rgb(0, 0, 0, 0.08), 0 0 6px #d60026;
+}
+
+.form--register--teacher, .form--register--indep-student {
+  background-color: rgba(255, 255, 255, .05);
+  color: rgba(255, 255, 255, .7);
+}
+
+.form--register--indep-student {
+  background-color: #131022;
+}
+
+.form--register--indep-student input[type="text"]::placeholder,
+.form--register--indep-student input[type="email"]::placeholder,
+.form--register--indep-student input[type="password"]::placeholder {
+  color: rgba(255, 255, 255, .3);
+}
+
+.row--under {
+  padding: 0 0 2rem 0;
+}
+
+.form--register-text p {
+  text-align: left;
+}
+
+.align-items-end {
+  align-items: flex-end !important;
+}
+
+.justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.button--home {
+  padding: 0.9rem 1.5rem 1rem 1.5rem;
+}
+
+.button--icon {
+  align-items: center;
+  display: inline-flex;
+  justify-content: space-between;
+}
+
+.form--register--indep-student a {
+  text-decoration: underline;
+}
+
+/* media rules */
+@media (min-width: 767px) {
+  .registration {
+    display: flex;
+    flex-direction: row;
+  }
+
+  /* teacher form */
+  div > .form--register:first-child {
+    margin: 4rem 2rem 4rem 0;
+  }
+
+  .form--register:last-child {
+    margin: 4rem 0 4rem 2rem;
+  }
+}

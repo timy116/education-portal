@@ -1,0 +1,188 @@
+.menu {
+  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.1)
+}
+
+.menu a {
+  display: flex;
+  align-items: center;
+
+  /* 不指定的話就會照原本元素的大小顯示，可能會導致超出父親或小於父親很多 */
+  height: 100%;
+}
+
+.menu button,
+.menu .dropdown-menu {
+  max-width: 350px;
+}
+
+.logo {
+  padding: 1.5rem 7rem 1.5rem 1.5rem;
+}
+
+.menu__brand--placeholder {
+  height: 100%;
+  width: 141px;
+}
+
+.dropdown,
+.button--dropdown {
+  display: flex;
+}
+
+.dropdown__text {
+  display: block;
+  overflow: visible;
+  text-align: left;
+  text-overflow: ellipsis;
+  width: 80%;
+  white-space: nowrap;
+}
+
+.button--dropdown:after {
+  font-size: 2.4rem;
+  padding: 0 0 0 2.5rem;
+  font-weight: normal;
+  line-height: 1;
+  content: "\e5cf";
+  font-family: "Material Icons Outlined";
+}
+
+.dropdown-menu {
+  color: rgba(255, 255, 255, .85);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  border-top: 0;
+  font-weight: 300;
+  margin: 0;
+  max-height: 300px;
+  min-width: 0;
+  overflow: auto;
+  padding: 0;
+}
+
+.dropdown-menu .dropdown-menu__option .button--regular {
+  color: rgba(255, 255, 255, .85) !important;
+  line-height: 2.5rem;
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  align-items: center;
+  background: #131022;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+}
+
+.button--header--login,
+.dropdown-menu__option__text {
+  transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.button--header--login:hover .dropdown__text,
+.dropdown-menu .dropdown-menu__option .button--regular:hover .dropdown-menu__option__text,
+.dropdown-menu .dropdown-menu__option .button--regular:focus .dropdown-menu__option__text,
+.dropdown-menu .dropdown-menu__option .button--regular:active .dropdown-menu__option__text {
+  color: #6366f1;
+  text-decoration: none;
+  outline: 0;
+}
+
+.material-icons-outlined {
+  color: rgba(255, 255, 255, .85) !important;
+  font-family: 'Material Icons Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (min-width: 1200px) {
+  .menu {
+    height: 100px;
+  }
+
+  .menu .logo {
+    height: 100%;
+  }
+
+  .menu .menu__brand {
+    margin: 0 3.5rem 0 0;
+  }
+}
+
+/* media rules */
+@media (min-width: 992px) {
+  .menu {
+    background-color: #131022;
+    display: flex;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1001;
+  }
+
+  .menu__brand {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .menu__brand img {
+    max-width: none;
+  }
+
+  .menu__left-side {
+    align-items: center;
+    display: flex;
+  }
+
+  .menu .button--register {
+    margin: 0 3rem 0 0;
+
+    /* 元素本身是 flex layout，所以裡面的元素都會變成 flex item，包括文字
+    所以在這裡裡面的文字就會居中 */
+    justify-content: center;
+  }
+
+  .menu .button--register,
+  .menu .button--header--login {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    width: 155px;
+    height: 45px;
+  }
+
+  .menu .button--register,
+  .menu .button--header--login {
+    padding: 1rem 1.5rem 1rem 1.5rem;
+    width: 155px;
+    height: 45px;
+  }
+
+  .header__login-options-dropdown-menu {
+    width: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .menu__right-side {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .menu {
+    height: 80px;
+  }
+
+  .menu .logo {
+    padding: 1.5rem 4.5rem 1.5rem 1.5rem;
+  }
+}
