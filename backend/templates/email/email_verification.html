@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/login.css' %}">
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock %}
+
 {% block content %}
   <section class="row mx-0">
     {% if is_teacher %}
