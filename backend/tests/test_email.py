@@ -7,6 +7,7 @@ from apps.portal.email import (
     SUBJECT_PREFIX,
     EMAIL_VERIFICATION_SUBJECT,
 )
+from apps.portal.models import EmailVerification
 from tests import factories as f
 
 pytestmark = pytest.mark.django_db
@@ -17,6 +18,13 @@ def test_verification_email(client, outbox):
     request = client.factory.request()
 
     send_verification_email(request, user)
+
+    verification = EmailVerification.objects.get(user=user)
+
+    assert verification.user == user
+    assert verification.email == user.email
+    assert verification.verified is False
+    assert len(verification.token) == 30
 
     subject = SUBJECT_TEMPLATE % {"prefix": SUBJECT_PREFIX, "subject": EMAIL_VERIFICATION_SUBJECT}
     verification = user.email_verifications.first()

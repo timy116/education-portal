@@ -132,6 +132,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 ]
 
-
-# Email settings
-EMAIL_ADDR = "no-reply@domain.com"
+# Overwriting default url '/accounts/profile/' because we determine url dynamically.
+LOGIN_REDIRECT_URL = ""

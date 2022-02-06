@@ -47,6 +47,8 @@ def register(request):
                 return independent_student_register_form_handler(request, data)
             else:
                 for field in ind_form.errors:
+                    if field == "captcha":
+                        continue
                     ind_form[field].field.widget.attrs["class"] += " has-error"
 
     # GET request

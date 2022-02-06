@@ -1,6 +1,5 @@
 from .base import *
 
-
 # Debug toolbar settings
 INSTALLED_APPS += [
     "debug_toolbar",
@@ -8,9 +7,9 @@ INSTALLED_APPS += [
 
 MIDDLEWARE.insert(0, "debug_toolbar.middleware.DebugToolbarMiddleware")
 
-
 if DEBUG:
     import mimetypes
+
     mimetypes.add_type("application/javascript", ".js", True)
 
 DEBUG_TOOLBAR_CONFIG = {
@@ -20,7 +19,6 @@ DEBUG_TOOLBAR_CONFIG = {
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
-
 
 # kolo settings.
 KOLO_DISABLE = bool(env('KOLO_DISABLE'))
@@ -77,3 +75,12 @@ LOGGING = {
         },
     },
 }
+
+# Email settings
+EMAIL_ADDR = "no-reply@domain.com"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "127.0.0.1"
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ""
+EMAIL_HOST_PASSWORD = ""
+EMAIL_USE_TLS = False
