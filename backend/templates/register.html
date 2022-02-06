@@ -124,7 +124,7 @@
             <small>{{ ind_form.name.help_text }}</small>
             <label for="id_ind_reg-name"></label>
             {{ ind_form.name }}
-            {{ ind_form.first_name.errors }}
+            {{ ind_form.name.errors }}
           </div>
 
           {% comment %}  username input {% endcomment %}
@@ -150,6 +150,7 @@
             <div class="input--icon">
               {{ ind_form.password }} <span class="iconify" data-icon="mdi:security"></span>
             </div>
+            {{ ind_form.password.errors }}
           </div>
 
           {% comment %} confirm password input {% endcomment %}
@@ -159,7 +160,7 @@
             <div class="input--icon">
               {{ ind_form.confirm_password }}<span class="iconify" data-icon="mdi:security"></span>
             </div>
-
+            {{ ind_form.confirm_password.errors }}
           </div>
 
           {% comment %} row under {% endcomment %}
@@ -191,4 +192,14 @@
       </div>
     </div>
   </div>
+
+  <script>
+  const indRegBtn = document.getElementsByName('independent_student_signup')[0]
+  indRegBtn.addEventListener('click', function (e) {
+    e.preventDefault()
+
+    const form = document.getElementById('form-reg-independent-student')
+    form.submit()
+  })
+  </script>
 {% endblock %}

@@ -68,7 +68,7 @@ class TeacherRegisterForm(forms.Form):
             attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼", "class": ""}
         ),
     )
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+    # captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_email(self):
         email = self.cleaned_data["email"]

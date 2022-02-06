@@ -47,7 +47,7 @@ class IndependentStudentRegisterForm(forms.Form):
         ),
     )
 
-    captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
+    # captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_username(self):
         username = self.cleaned_data["username"]
@@ -62,6 +62,8 @@ class IndependentStudentRegisterForm(forms.Form):
 
         if Student.objects.is_email_already_used(email):
             raise forms.ValidationError("此電子郵件地址已被使用。")
+
+        return email
 
     def clean_password(self):
         return clean_password_helper(self, "password", PasswordStrength.INDEPENDENT)
