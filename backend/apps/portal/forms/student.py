@@ -2,13 +2,14 @@ from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 
-from apps.portal.email.helper import is_email_verified
-from apps.portal.helpers.password import (
+from..email.helper import is_email_verified
+from ..helpers.password import (
     PasswordStrength, clean_password_helper
 )
 from . import BaseLoginForm
 from ..fields import (CharField, NameRegexField, UsernameRegexField, EmailField)
 from ..models import Student
+from ..permissions import independent_student_login
 
 
 class IndependentStudentRegisterForm(forms.Form):
@@ -97,5 +98,8 @@ class IndependentStudentLoginForm(BaseLoginForm):
     password = forms.CharField(label="密碼", widget=forms.PasswordInput())
 
     def confirm_login_allowed(self, user):
-        if not is_email_verified(user):
+        if not independent_student_login(user):
             raise self.get_invalid_login_error()
+
+        if not is_email_verified(user):
+            raise self.get_inactive_login_error()

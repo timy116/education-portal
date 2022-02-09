@@ -1,8 +1,7 @@
 import pytest
 from django.urls import reverse
 
-from apps.portal.forms.student import IndependentStudentRegisterForm, IndependentStudentLoginForm
-from apps.portal.forms import BaseLoginForm
+from apps.portal.forms.student import IndependentStudentRegisterForm, BaseLoginForm
 from apps.portal.helpers.password import ERROR_MESSAGE as PASSWORD_ERROR_MESSAGE
 from tests import factories as f
 
@@ -26,6 +25,13 @@ def register_form():
         f"{ind_prefix}-confirm_password": "Dummy1Password",
         "g-recaptcha-response": "dummy_recaptcha",
     }
+
+
+"""
+ ############################
+ ### Testing RegisterForm ###
+ ############################
+"""
 
 
 def test_name_is_empty(client, register_form, fields):
@@ -146,8 +152,10 @@ def test_password_does_not_match(client, register_form):
     register_form["ind_reg-password"] = "Dummy1Password2"
 
     resp = client.post_soup(path=reverse("register"), data=register_form)
-    assert resp.select(".errorlist")[0].text == IndependentStudentRegisterForm.error_messages["password_does_not_match"]
-    assert resp.select(".errorlist")[1].text == IndependentStudentRegisterForm.error_messages["password_does_not_match"]
+    error_msg = IndependentStudentRegisterForm.error_messages["password_does_not_match"]
+
+    assert resp.select(".errorlist")[0].text == error_msg
+    assert resp.select(".errorlist")[1].text == error_msg
 
 
 def test_register_successful(client, register_form):
@@ -155,3 +163,74 @@ def test_register_successful(client, register_form):
 
     assert resp.context["is_teacher"] is False
     assert resp.context["obj"] is not None
+
+
+"""
+ ############################
+ ### Testing LoginForm ######
+ ############################
+"""
+
+
+@pytest.fixture
+def login_form():
+    return {
+        "username": "dummy-user",
+        "password": "Dummy1Password",
+    }
+
+
+def test_user_does_not_exist(client, login_form):
+    resp = client.post_soup(path=reverse("independent_student_login"), data=login_form)
+    error_msg = BaseLoginForm.error_messages["invalid_login"]
+
+    assert resp.select(".errorlist")[0].text == error_msg
+
+
+def test_invalid_username(client):
+    user = f.UserFactory.create()
+    form = {"username": f"{user.username}-extra", "password": user.username}
+    resp = client.post_soup(path=reverse("independent_student_login"), data=form)
+    error_msg = BaseLoginForm.error_messages["invalid_login"]
+
+    assert resp.select(".errorlist")[0].text == error_msg
+
+
+def test_invalid_password(client):
+    user = f.UserFactory.create()
+    form = {"username": user.username, "password": f"{user.username}-extra"}
+    resp = client.post_soup(path=reverse("independent_student_login"), data=form)
+    error_msg = BaseLoginForm.error_messages["invalid_login"]
+
+    assert resp.select(".errorlist")[0].text == error_msg
+
+
+def test_account_is_not_independent_student(client):
+    teacher = f.TeacherFactory.create()
+
+    form = {"username": teacher.user.username, "password": teacher.user.username}
+    resp = client.post_soup(path=reverse("independent_student_login"), data=form)
+    error_msg = BaseLoginForm.error_messages["invalid_login"]
+
+    assert resp.select(".errorlist")[0].text == error_msg
+
+
+def test_account_is_inactive(client):
+    ind_student = f.StudentFactory.create()
+    f.EmailVerificationFactory.create(user=ind_student.user)
+
+    form = {"username": ind_student.user.username, "password": ind_student.user.username}
+    resp = client.post_soup(path=reverse("independent_student_login"), data=form)
+    error_msg = BaseLoginForm.error_messages["inactive"]
+
+    assert resp.select(".errorlist")[0].text == error_msg
+
+
+def test_login_success(client):
+    ind_student = f.StudentFactory.create()
+    f.EmailVerificationFactory.create(user=ind_student.user, verified=True)
+
+    form = {"username": ind_student.user.username, "password": ind_student.user.username}
+    resp = client.post(path=reverse("independent_student_login"), data=form)
+
+    assert "dashboard/independent/" in resp["Location"]

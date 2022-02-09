@@ -133,6 +133,15 @@ section button, section .button {
   cursor: pointer;
 }
 
+.nonfield {
+  font-size: 2rem;
+  color: #d60026;
+  font-style: italic;
+  list-style: none;
+  padding: 0;
+  text-align: center;
+  margin-bottom: 20px;
+}
 /* end global rules */
 
 
