@@ -12,16 +12,20 @@ from ..models import Student
 
 
 class IndependentStudentRegisterForm(forms.Form):
+    error_messages = {
+        "password_does_not_match": "您輸入的密碼不一致。",
+    }
+
     name = NameRegexField(
-        max_length=100,
+        max_length=25,
         help_text="請輸入您的大名",
         widget=forms.TextInput(
-            attrs={"autocomplete": "off", "placeholder": "王小明", "class": "" }
+            attrs={"autocomplete": "off", "placeholder": "王小明", "class": ""}
         ),
     )
 
     username = UsernameRegexField(
-        max_length=100,
+        max_length=15,
         help_text="請輸入使用者名稱(帳號)",
         widget=forms.TextInput(
             attrs={"autocomplete": "off", "placeholder": "xiaoMing123", "class": ""}
@@ -69,11 +73,21 @@ class IndependentStudentRegisterForm(forms.Form):
         return clean_password_helper(self, "password", PasswordStrength.INDEPENDENT)
 
     def clean(self):
+        if any(self.errors):
+            return
+
         password = self.cleaned_data["password"]
         confirm_password = self.cleaned_data["confirm_password"]
 
         if password != confirm_password:
-            raise forms.ValidationError("Your passwords do not match")
+            # Any ValidationError raised by `clean` method will
+            # not be associated with a particular field; it will have a special-case
+            # association with the field named '__all__'.
+            e = forms.ValidationError(self.error_messages["password_does_not_match"])
+            self.add_error("password", e)
+            self.add_error("confirm_password", e)
+
+            return
 
         return self.cleaned_data
 
