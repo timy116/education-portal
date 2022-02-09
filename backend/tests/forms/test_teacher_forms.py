@@ -145,8 +145,16 @@ def test_password_is_invalid(client, register_form, password):
     assert resp.select(".errorlist")[0].text == PASSWORD_ERROR_MESSAGE % 10
 
 
+def test_password_does_not_match(client, register_form):
+    register_form["teacher_reg-password"] = "!DummyPass1word2@extra"
+
+    resp = client.post_soup(path=reverse("register"), data=register_form)
+    assert resp.select(".errorlist")[0].text == TeacherRegisterForm.error_messages["password_does_not_match"]
+    assert resp.select(".errorlist")[1].text == TeacherRegisterForm.error_messages["password_does_not_match"]
+
+
 def test_register_successful(client, register_form, outbox):
     resp = client.post(path=reverse("register"), data=register_form)
 
-    assert resp.context["is_teacher"] == True
+    assert resp.context["is_teacher"] is True
     assert resp.context["obj"] is not None

@@ -153,5 +153,5 @@ def test_password_does_not_match(client, register_form):
 def test_register_successful(client, register_form):
     resp = client.post(path=reverse("register"), data=register_form)
 
-    assert resp.context["is_teacher"] == False
+    assert resp.context["is_teacher"] is False
     assert resp.context["obj"] is not None

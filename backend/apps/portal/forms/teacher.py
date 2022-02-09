@@ -18,21 +18,13 @@ from ..fields import (
 from ..models import Teacher
 
 
-def check_passwords(password, confirm_password):
-    """
-    檢查兩次密碼是否輸入一致
-    """
-
-    if password is not None and password != confirm_password:
-        raise forms.ValidationError("您輸入的密碼不一致。")
-
-
 class TeacherRegisterForm(forms.Form):
     """
     Register form for teacher.
     """
+
     error_messages = {
-        'required': '此欄位必填。',
+        "password_does_not_match": "您輸入的密碼不一致。",
     }
 
     first_name = NameRegexField(
@@ -85,10 +77,16 @@ class TeacherRegisterForm(forms.Form):
         if any(self.errors):
             return
 
-        password = self.cleaned_data.get("password", None)
-        confirm_password = self.cleaned_data.get("confirm_password", None)
+        password = self.cleaned_data["password"]
+        confirm_password = self.cleaned_data["confirm_password"]
 
-        check_passwords(password, confirm_password)
+        if password != confirm_password:
+            # Any ValidationError raised by `clean` method will
+            # not be associated with a particular field; it will have a special-case
+            # association with the field named '__all__'.
+            e = forms.ValidationError(self.error_messages["password_does_not_match"])
+            self.add_error("password", e)
+            self.add_error("confirm_password", e)
 
         return self.cleaned_data
 
