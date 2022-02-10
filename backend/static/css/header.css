@@ -24,6 +24,12 @@
   width: 141px;
 }
 
+.menu .menu--title {
+  font-size: 2.7rem;
+  color: rgba(255, 255, 255, .85);
+  margin: 0 4rem 1rem;
+}
+
 .dropdown,
 .button--dropdown {
   display: flex;
@@ -66,7 +72,7 @@
   padding: 1rem 1.5rem 1rem 1.5rem;
   align-items: center;
   background: #131022;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+  /*border-bottom: 2px solid rgba(255, 255, 255, 0.2);*/
   display: flex;
   justify-content: space-between;
   margin: 0;
@@ -102,6 +108,25 @@
   -webkit-font-smoothing: antialiased;
 }
 
+.dropdown.header__account-details-dropdown,
+.header__account-details-dropdown.button--dropdown {
+  justify-content: flex-end;
+  height: 48px;
+}
+
+.button--dropdown.header__account-details-dropdown::after {
+  content: "\e8a6";
+}
+
+.button--dropdown:after {
+  font-size: 2.4rem;
+  padding: 0 0 0 2.5rem;
+  font-weight: normal;
+  line-height: 1;
+  content: "\e5cf";
+  font-family: "Material Icons Outlined";
+}
+
 @media (min-width: 1200px) {
   .menu {
     height: 100px;
@@ -114,6 +139,15 @@
   .menu .menu__brand {
     margin: 0 3.5rem 0 0;
   }
+}
+
+.dropdown-menu.header__account-details-dropdown-menu {
+  left: auto;
+  right: 0;
+}
+
+.menu button, .menu .dropdown-menu {
+  max-width: 350px;
 }
 
 /* media rules */
@@ -166,6 +200,17 @@
 
   .header__login-options-dropdown-menu {
     width: 100%;
+  }
+
+  .menu .button--menu--secondary {
+    padding: 1.5rem 0;
+  }
+
+  .header__account-details-dropdown,
+  .header__account-details-dropdown-menu {
+    min-width: 190px;
+    width: 80%;
+    background: transparent;
   }
 }
 

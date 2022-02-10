@@ -1,54 +1,99 @@
 {% load staticfiles %}
+{% load portal_tags %}
 
 <div class="header">
   {% comment %} Menu {% endcomment %}
   <div class="menu">
+    {% comment %} logo {% endcomment %}
     <div class="menu__brand">
       <a href="{% url 'index' %}">
-        <img src="{% static 'img/logo.png' %}">
+        <img src="{% static 'img/logo.png' %}" alt="logo">
       </a>
       <div class="menu__brand--placeholder"></div>
     </div>
 
     {% comment %} menu__left-side {% endcomment %}
-    <div class="menu__left-side col-md-5">
-      <a href="#" class="button--menu--primary button--menu">老師</a>
-      <a href="#" class="button--menu--primary button--menu">學生</a>
-    </div>
+    {% if user|is_logged_in %}
+      <div class="menu__left-side col-md-7">
+        {% if user|is_logged_in_as_teacher %}
+
+        {% else %}
+          {% if user|is_independent_student %}
+            <div class="menu--title">獨立學生</div>
+          {% else %}
+            <div class="menu--title">學生</div>
+          {% endif %}
+
+          <a
+                  {% if user|is_independent_student %}
+                    href="{% url 'independent_student_dashboard' %}"
+                  {% endif %}
+                    id="student_dashboard_button"
+                    class="button--menu button--menu--secondary"
+          >儀表板</a>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="menu__left-side col-md-5">
+        <a href="#" class="button--menu--primary button--menu">老師</a>
+        <a href="#" class="button--menu--primary button--menu">學生</a>
+      </div>
+    {% endif %}
 
     {% comment %} menu__right-side {% endcomment %}
-    <div class="menu__right-side col-md-5">
-      <a href="{% url 'register' %}" id="signup_button" class="button button--primary button--register">註冊</a>
+    {% if user|is_logged_in %}
+      <div class="menu__right-side col-md-4">
+        <div class="dropdown header__account-details-dropdown">
+          <button id="logout_menu"
+                  class="button--regular button--secondary button--dropdown header__account-details-dropdown"
+                  data-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown__text">{{ user|get_username }}</div>
+          </button>
 
-      {% comment %} dropdown {% endcomment %}
-      <div class="dropdown">
-        <button id="login_dropdown" class="button--regular button--secondary button--header--login button--dropdown"
-                data-toggle="dropdown" aria-expanded="false">
-          <div class="dropdown__text">登入</div>
-        </button>
-
-        {% comment %} dropdown-menu {% endcomment %}
-        <ul class="dropdown-menu header__login-options-dropdown-menu">
-          <li class="dropdown-menu__option">
-            <a href="{% url 'teacher_login' %}" class="button--regular" aria-labelledby="Teacher">
-              <div class="dropdown-menu__option__text">老師</div>
-              <span class="material-icons-outlined">chevron_right</span>
-            </a>
-          </li>
-          <li class="dropdown-menu__option">
-            <a href="#" class="button--regular" aria-labelledby="Student">
-              <div class="dropdown-menu__option__text">學生</div>
-              <span class="material-icons-outlined">chevron_right</span>
-            </a>
-          </li>
-          <li class="dropdown-menu__option">
-            <a href="{% url 'independent_student_login' %}" class="button--regular" aria-labelledby="Independent">
-              <div class="dropdown-menu__option__text">獨立學生</div>
-              <span class="material-icons-outlined">chevron_right</span>
-            </a>
-          </li>
-        </ul>
+          <ul class="dropdown-menu header__account-details-dropdown-menu">
+            <li class="dropdown-menu__option">
+              <a href="{% url 'logout' %}" class="button--regular" aria-labelledby="Log out">
+                <div class="dropdown-menu__option__text">登出</div>
+                <span class="material-icons-outlined">logout</span>
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
+    {% else %}
+      <div class="menu__right-side col-md-5">
+        <a href="{% url 'register' %}" id="signup_button" class="button button--primary button--register">註冊</a>
+
+        {% comment %} dropdown {% endcomment %}
+        <div class="dropdown">
+          <button id="login_dropdown" class="button--regular button--secondary button--header--login button--dropdown"
+                  data-toggle="dropdown" aria-expanded="false">
+            <div class="dropdown__text">登入</div>
+          </button>
+
+          {% comment %} dropdown-menu {% endcomment %}
+          <ul class="dropdown-menu header__login-options-dropdown-menu">
+            <li class="dropdown-menu__option">
+              <a href="{% url 'teacher_login' %}" class="button--regular" aria-labelledby="Teacher">
+                <div class="dropdown-menu__option__text">老師</div>
+                <span class="material-icons-outlined">chevron_right</span>
+              </a>
+            </li>
+            <li class="dropdown-menu__option">
+              <a href="#" class="button--regular" aria-labelledby="Student">
+                <div class="dropdown-menu__option__text">學生</div>
+                <span class="material-icons-outlined">chevron_right</span>
+              </a>
+            </li>
+            <li class="dropdown-menu__option">
+              <a href="{% url 'independent_student_login' %}" class="button--regular" aria-labelledby="Independent">
+                <div class="dropdown-menu__option__text">獨立學生</div>
+                <span class="material-icons-outlined">chevron_right</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    {% endif %}
   </div>
 </div>

@@ -4,10 +4,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 
-from .views import index
+from .views import index, logout
 
 urlpatterns = [
     url(r"^$", index, name="index"),
+    url(r"^logout/$", logout, name="logout"),
     path('admin/', admin.site.urls),
     url(r"^", include("apps.portal.url.urls")),
 ]

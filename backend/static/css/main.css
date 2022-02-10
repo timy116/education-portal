@@ -142,6 +142,7 @@ section button, section .button {
   text-align: center;
   margin-bottom: 20px;
 }
+
 /* end global rules */
 
 
@@ -178,6 +179,11 @@ button,
 .button--menu--primary {
   font-size: 2.7rem;
   margin: 0 4rem 0 1rem;
+}
+
+.button--menu--secondary {
+  font-size: 1.8rem;
+  margin: 0 2rem;
 }
 
 .button--menu {
