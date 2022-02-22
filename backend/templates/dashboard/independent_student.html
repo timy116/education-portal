@@ -1,3 +1,68 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load portal_tags %}
 
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/independent-student-dashboard.css' %}">
+{% endblock %}
+
+{% block sub_nav %}
+  <section class="banner banner--independent-student row mx-0">
+    <div>
+      <h1 class="banner__text--primary">哈囉！ {{ user|get_username }}</h1>
+      <h4>在這裡，您可以存取您的遊戲</h4>
+    </div>
+  </section>
+{% endblock %}
+
+{% block content %}
+  <div id="dashboard-page">
+    {% comment %} Games {% endcomment %}
+    <div class="background container">
+      <section>
+        <h4>您的遊戲</h4>
+      </section>
+
+      <div class="grid-games col-center col-sm-4">
+        <div class="card">
+          <div class="card__images">
+            <img class="card__image" src="{% static 'img/dummy_game.png' %}" alt="Dummy Game">
+          </div>
+
+          <div class="card__text">
+            <h5 class="card__title">Dummy Game</h5>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad fuga natus obcaecati repellendus saepe
+              voluptatem?</p>
+
+            <div class="button-group">
+              <a href="#" class="button button--primary">開始遊戲</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% comment %} Game score {% endcomment %}
+    <div class="background background--primary">
+      <div class="container">
+        <div class="col-center text-center col-sm-9">
+          <h4>您已經完成了 n 個等級！</h4>
+          <h4>您有 n 個最高分紀錄！</h4>
+          <h4>您的分數為 n 分。您剩餘可獲得的分數為 n 分。</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} Another dummy game {% endcomment %}
+  <div class="background container">
+  <section>
+    <h4>這個遊戲您必須先加入一個班級或社團才可以遊玩。您的老師、父母或者監護人可以成立一個社團並且創立一個班級。</h4>
+    <div class="row">
+      <div class="col-xs-12 image--game">
+        <img src="{% static 'img/another_dummy_game.jpg' %}" alt="Another dummy game">
+      </div>
+    </div>
+  </section>
+  </div>
+{% endblock %}

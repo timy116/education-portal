@@ -21,10 +21,25 @@ small {
   font-size: 80%;
 }
 
+h1 {
+  font-size: 6rem;
+  font-weight: 500;
+}
+
 h4 {
   font-size: 3rem;
   margin: 2rem 0;
   font-weight: 500;
+}
+
+h5 {
+  font-size: 2.4rem;
+  margin: 2rem 0;
+  font-weight: 500;
+}
+
+section {
+  text-align: center;
 }
 
 form input[type="text"],
@@ -78,11 +93,6 @@ form input[type="password"]:focus {
 
 section button, section .button {
   margin: 3rem 2rem 0;
-}
-
-.background {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
 }
 
 /* message style */
@@ -141,6 +151,25 @@ section button, section .button {
   padding: 0;
   text-align: center;
   margin-bottom: 20px;
+}
+
+/* banner start */
+.banner--teacher,
+.banner--student,
+.banner--independent-student {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 320px;
+}
+
+.banner__text--primary {
+  margin: 6rem auto 1rem auto;
+}
+
+.banner--independent-student {
+  background: #614092;
+  color: #fff;
 }
 
 /* end global rules */

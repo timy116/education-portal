@@ -109,6 +109,8 @@
 <script src="{% static 'js/vendor/jquery-colorbox-1.5.13.js' %}"></script>
 <script src="{% static 'js/vendor/iconify-2.0.3.js' %}"></script>
 <script>
+  const TIMEOUT = 8000
+
   const messageContainerEl = document.querySelector("#messages")
   const messageEl = document.querySelector(".sub-nav--message")
   const messageCloseEl = document.querySelector(".sub-nav .x-icon")
@@ -118,7 +120,7 @@
       messageContainerEl.classList.add("d-invisibility")
 
       setTimeout(() => messageContainerEl.classList.add("d-none"), 1100)
-    }, 5000)
+    }, TIMEOUT)
   }
 
   if (messageCloseEl) {
