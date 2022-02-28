@@ -42,3 +42,15 @@ class IndependentStudentLoginView(LoginView):
 class TeacherLoginView(LoginView):
     template_name = "login/teacher.html"
     form_class = TeacherLoginForm
+
+    def redirect_to(self, teacher):
+        if teacher.has_school:
+            pass
+        else:
+            return reverse_lazy("onboarding_organisation")
+
+    def get_success_url(self):
+        try:
+            return super().get_success_url()
+        except NoReverseMatch:
+            return self.redirect_to(self.request.user.userprofile.teacher)

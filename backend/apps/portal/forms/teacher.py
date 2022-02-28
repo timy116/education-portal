@@ -1,7 +1,7 @@
-from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV2Invisible
 from django import forms
 from django.contrib.auth import authenticate
+from django.core.validators import EmailValidator
+from django_countries.widgets import CountrySelectWidget
 
 from apps.portal.email import (
     is_email_verified,
@@ -15,7 +15,7 @@ from . import BaseLoginForm
 from ..fields import (
     CharField, NameRegexField, EmailField
 )
-from ..models import Teacher
+from ..models import Teacher, School
 
 
 class TeacherRegisterForm(forms.Form):
@@ -60,6 +60,7 @@ class TeacherRegisterForm(forms.Form):
             attrs={"autocomplete": "off", "placeholder": "再次輸入您的密碼", "class": ""}
         ),
     )
+
     # captcha = ReCaptchaField(widget=ReCaptchaV2Invisible)
 
     def clean_email(self):
@@ -130,3 +131,91 @@ class TeacherLoginForm(BaseLoginForm):
             self.check_errors(email, password)
 
         return self.cleaned_data
+
+
+class OrganisationForm(forms.ModelForm):
+    class Meta:
+        model = School
+        fields = ["name", "postcode", "country"]
+        widgets = {
+            "學校名稱": forms.TextInput(
+                attrs={
+                    "autocomplete": "off",
+                    "placeholder": "請輸入自定義學校名稱",
+                },
+            ),
+            "郵遞區號": forms.TextInput(
+                attrs={"autocomplete": "off", "placeholder": "郵遞區號，如: 22053"}
+            ),
+            "國家/地區": CountrySelectWidget(layout="{widget}"),
+        }
+        help_texts = {
+            "學校名稱": "自定義學校名稱",
+            "郵遞區號": "郵遞區號",
+            "國家/地區": "國家或地區",
+        }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user", None)
+        self.current_school = kwargs.pop("current_school", None)
+        super(OrganisationForm, self).__init__(*args, **kwargs)
+        self.fields["postcode"].strip = False
+
+    def clean_name(self):
+        name = self.cleaned_data.get("name", None)
+        validator = EmailValidator()
+
+        if name:
+            try:
+                validator(name)
+                is_email = True
+            except forms.ValidationError:
+                is_email = False
+
+            if is_email:
+                raise forms.ValidationError("請確認您輸入的名稱是否有效。")
+
+        return name
+
+    def clean_postcode(self):
+        postcode = self.cleaned_data.get("postcode", None)
+
+        if postcode:
+            if len(postcode.replace(" ", "")) > 10 or len(postcode.replace(" ", "")) == 0:
+                raise forms.ValidationError("請輸入有效的郵遞區號。")
+
+        return postcode
+
+    def clean(self):
+        name = self.cleaned_data.get("name", None)
+        postcode = self.cleaned_data.get("postcode", None)
+
+        if name and postcode:
+            try:
+                school = School.objects.get(name=name, postcode=postcode)
+            except School.DoesNotExist:
+                return self.cleaned_data
+            else:
+                if not self.current_school or self.current_school.id != school.id:
+                    raise forms.ValidationError("已經存在一個被註冊的學校名稱與郵遞區號。")
+
+        return self.cleaned_data
+
+
+class OrganisationJoinForm(forms.Form):
+    fuzzy_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={"placeholder": "請輸入學校名稱或郵遞區號"}
+        ),
+        help_text="請輸入學校名稱或郵遞區號",
+    )
+
+    chosen_org = forms.CharField(widget=forms.Select(), help_text="請選擇學校")
+
+    def clean_chosen_org(self):
+        chosen_org = self.cleaned_data.get("chosen_org", None)
+
+        if chosen_org and not School.objects.filter(id=int(chosen_org)).exists():
+            raise forms.ValidationError("無法識別學校名稱。")
+
+        return chosen_org
