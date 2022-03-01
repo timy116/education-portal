@@ -16,7 +16,18 @@
     {% if user|is_logged_in %}
       <div class="menu__left-side col-md-7">
         {% if user|is_logged_in_as_teacher %}
+          <div class="menu--title">老師</div>
+          <a
+                  {% if user|has_teacher_finished_onboarding %}
+                     href="#"
+                  {% else %}
+                    href="{% url 'onboarding_organisation' %}"
+                  {% endif %}
+                    id="teacher_dashboard_button"
+                    class="button--menu button--menu--secondary"
+          >儀表板</a>
 
+          {% comment %} user|is_logged_in_as_teacher {% endcomment %}
         {% else %}
           {% if user|is_independent_student %}
             <div class="menu--title">獨立學生</div>

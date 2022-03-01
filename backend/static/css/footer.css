@@ -56,7 +56,8 @@ div#ot-sdk-cookie-policy {
 .footer p a,
 .footer label,
 .footer small,
-.form--register--indep-student a {
+.form--register--indep-student a,
+#join-button {
   color: rgba(255, 255, 255, .85);
   transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
 }
@@ -73,6 +74,13 @@ div#ot-sdk-cookie-policy {
 .form--register--indep-student a:hover,
 .form--register--indep-student a:active {
   border: none;
+  color: #6366f1;
+  text-decoration: none;
+  outline: 0;
+}
+
+#join-button:hover,
+#join-button:active {
   color: #6366f1;
   text-decoration: none;
   outline: 0;

@@ -16,6 +16,7 @@ from ..fields import (
     CharField, NameRegexField, EmailField
 )
 from ..models import Teacher, School
+from ..permissions import teacher_login
 
 
 class TeacherRegisterForm(forms.Form):
@@ -108,19 +109,19 @@ class TeacherLoginForm(BaseLoginForm):
             raise self.get_invalid_login_error()
         else:
             user = teacher.user
-            user = authenticate(username=user.username, password=password)
+            self.user_cache = authenticate(username=user.username, password=password)
 
             # User credentials are invalid
-            if user is None:
+            if self.user_cache is None:
                 raise self.get_invalid_login_error()
 
             # User's email is not verified
-            if not is_email_verified(user):
-                send_verification_email(self.request, user)
+            if not is_email_verified(self.user_cache):
+                send_verification_email(self.request, self.user_cache)
                 raise self.get_invalid_login_error()
 
             # User is inactive
-            if not user.is_active:
+            if not self.user_cache.is_active:
                 raise forms.ValidationError(self.error_messages["inactive"], code="inactive")
 
     def clean(self):
@@ -130,7 +131,13 @@ class TeacherLoginForm(BaseLoginForm):
         if email is not None and password is not None:
             self.check_errors(email, password)
 
+        self.confirm_login_allowed(self.user_cache)
+
         return self.cleaned_data
+
+    def confirm_login_allowed(self, user):
+        if not teacher_login(user):
+            raise self.get_invalid_login_error()
 
 
 class OrganisationForm(forms.ModelForm):
@@ -138,21 +145,21 @@ class OrganisationForm(forms.ModelForm):
         model = School
         fields = ["name", "postcode", "country"]
         widgets = {
-            "學校名稱": forms.TextInput(
+            "name": forms.TextInput(
                 attrs={
                     "autocomplete": "off",
                     "placeholder": "請輸入自定義學校名稱",
                 },
             ),
-            "郵遞區號": forms.TextInput(
+            "postcode": forms.TextInput(
                 attrs={"autocomplete": "off", "placeholder": "郵遞區號，如: 22053"}
             ),
-            "國家/地區": CountrySelectWidget(layout="{widget}"),
+            "country": CountrySelectWidget(layout="{widget}"),
         }
         help_texts = {
-            "學校名稱": "自定義學校名稱",
-            "郵遞區號": "郵遞區號",
-            "國家/地區": "國家或地區",
+            "name": "自定義學校名稱",
+            "postcode": "郵遞區號",
+            "country": "國家或地區",
         }
 
     def __init__(self, *args, **kwargs):

@@ -36,6 +36,20 @@ def is_logged_in_as_teacher(user):
     return is_logged_in(user) and user.userprofile and hasattr(user.userprofile, "teacher")
 
 
+
+@register.filter
+def has_teacher_finished_onboarding(user):
+    teacher = user.userprofile.teacher
+    classes = teacher.class_teacher.all()
+
+    return (
+        is_logged_in_as_teacher(user)
+        and teacher.has_school
+        and classes
+        and (classes.count() > 1 or classes[0].has_students())
+    )
+
+
 @register.filter
 def get_username(user):
     username = ""

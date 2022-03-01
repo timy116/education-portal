@@ -172,6 +172,42 @@ section button, section .button {
   color: #fff;
 }
 
+.banner--teacher {
+  background-color: #7952B3;
+  color: #fff;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.ml-3 {
+  margin-left: 1rem !important;
+}
+
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+.progress {
+  height: 10px;
+  background-color: #b9a8d4;
+}
+
+.progress-bar {
+  background-color: #7952B3;
+}
+
+select[name="country"] {
+  outline: none;
+  color: rgba(255, 255, 255, .7);
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), #131022;
+}
+
+form button {
+  margin: 2rem 0 1rem 0;
+}
+
 /* end global rules */
 
 
@@ -296,5 +332,11 @@ button,
 @media (min-width: 992px) and (max-width: 1199px) {
   .content-footer-wrapper {
     padding-top: 80px;
+  }
+}
+
+@media (min-width: 992px) {
+  .text-lg-left {
+    text-align: left !important;
   }
 }

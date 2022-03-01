@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load portal_tags %}
+
+{% block sub_nav %}
+  <div class="banner banner--teacher">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 flex-column text-center text-lg-left">
+          <h1>哈囉！ {{ user|get_username }}</h1>
+          <h5>使用班級進行 Coding 所需要的東西都在此頁。讓我們為您完成設定。</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+{% endblock %}
