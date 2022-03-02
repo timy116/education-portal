@@ -177,6 +177,17 @@ section button, section .button {
   color: #fff;
 }
 
+.background {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.col-center {
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .justify-content-between {
   justify-content: space-between !important;
 }
@@ -208,6 +219,36 @@ form button {
   margin: 2rem 0 1rem 0;
 }
 
+/* Teacher create class start */
+form input[type="checkbox"] {
+  height: 20px;
+}
+
+.form__checkbox {
+  display: flex;
+  align-items: center;
+  font-size: 75%;
+  padding: 1.2% 0 2.5% 1.2%;
+}
+
+.form--row .form--row__input .form__checkbox {
+  font-size: 100%;
+}
+
+.form__checkbox-input {
+  padding-right: 25px;
+}
+
+.form__checkbox-input input[type="checkbox"] {
+  transform: scale(2);
+  padding: 10px;
+}
+
+.font-weight-normal {
+  font-weight: normal;
+}
+
+/* Teacher create class end */
 /* end global rules */
 
 

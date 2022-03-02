@@ -10,7 +10,14 @@
     {% comment %} if teacher.pending_join_request {% endcomment %}
   {% else %}
     {% if teacher.school %}
-
+      <div class="container background">
+        <div class="form col-sm-8 col-center">
+          <section class="background">
+            <h4>您似乎已經建立了一個學校 ({{ user.teacher.school.name }})</h4>
+            <a href="{% url 'onboarding_class' %}" class="button button--primary">新增一個班級</a>
+          </section>
+        </div>
+      </div>
       {% comment %} if teacher.school {% endcomment %}
     {% else %}
       <div class="container background">

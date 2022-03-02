@@ -1,0 +1,78 @@
+{% extends 'dashboard/teacher_base.html' %}
+{% load staticfiles %}
+{% load portal_tags %}
+
+{% block content %}
+  <div id="onboarding_classes_page"></div>
+
+  {% if classes %}
+    <div class="container background">
+      <div class="row">
+        <div class="form col-sm-12">
+          {% for class in classes %}
+            <section class="background">
+
+            </section>
+          {% endfor %}
+
+        </div>
+      </div>
+    </div>
+
+    {% comment %} if classes {% endcomment %}
+  {% else %}
+    <div class="container background">
+      <div class="row">
+        <div class="form col-sm-12">
+          <h4>建立一個班級</h4>
+          <p class="mb-3">進度 &lt; 2 / 4 &gt;</p>
+
+          {% comment %} Progress {% endcomment %}
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+                 style="width: 50%;">
+              <span class="sr-only">完成 50%</span>
+            </div>
+          </div>
+
+          <p>
+            當您設置完一個新班級時，將會自動產生一個唯一的識別碼，您將會被識別為該班級的老師。
+          </p>
+
+          {% comment %} Create Class Form {% endcomment %}
+          <form id="form-create-class" method="post">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+
+            <div class="row form--row" style="align-items: flex-end;">
+              {% comment %} Class Name Field {% endcomment %}
+              <div class="form--row__input col-sm-6 col-md-6">
+                <small>{{ form.class_name.help_text }}</small>
+                <div class="input--icon">
+                  {{ form.class_name }}
+                  <span class="iconify" data-icon="mdi:account-multiple"></span>
+                </div>
+                {{ form.class_name.errors }}
+              </div>
+
+              {% comment %} Classmate Progress Field {% endcomment %}
+              <div class="form--row__input col-sm-12 col-md-6">
+                <div class="form__checkbox">
+                  <div class="form__checkbox-input">
+                    {{ form.classmate_progress }}
+                  </div>
+                  <label for="id_{{ form.classmate_progress.html_name }}"
+                         class="font-weight-normal">{{ form.classmate_progress.label }}</label>
+                </div>
+                {{ form.classmate_progress.errors }}
+              </div>
+
+            </div>
+
+            <button id="create_class_button" type="submit" class="button button--primary">建立班級</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

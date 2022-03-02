@@ -1,17 +1,6 @@
-.background {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-}
-
 .background--primary {
   background-color: #131022;
   color: rgba(255, 255, 255, .7);
-}
-
-.col-center {
-  float: none;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 .card {

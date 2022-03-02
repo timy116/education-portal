@@ -1,14 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView
-from django.http import HttpResponseRedirect
 
 from .mixins import LoginRequiredNotRaiseErrorMixin
+from ..forms.klass import ClassCreationForm
 from ..forms.teacher import OrganisationJoinForm, OrganisationForm
-from ..models import School
+from ..models import School, Student, Class
 from ..permissions import independent_student_login, teacher_login
 
 
@@ -66,4 +67,21 @@ def create_organisation(request):
 @login_required(login_url=reverse_lazy("teacher_login"))
 @user_passes_test(teacher_login, login_url=reverse_lazy("teacher_login"))
 def create_class(request):
-    pass
+    teacher = request.user.teacher
+    requests = Student.objects.filter(pending_class_request__teacher=teacher, user__is_active=True)
+
+    if not teacher.school:
+        return HttpResponseRedirect(reverse_lazy("onboarding_organisation"))
+
+    if request.method == "POST":
+        form = ClassCreationForm()
+    else:
+        form = ClassCreationForm()
+
+    classes = Class.objects.filter(teacher=teacher)
+
+    return render(
+        request=request,
+        template_name="dashboard/teacher_onboarding_classes.html",
+        context={"form": form, "classes": classes, "requests": requests}
+    )

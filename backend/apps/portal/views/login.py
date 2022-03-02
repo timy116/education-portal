@@ -45,7 +45,12 @@ class TeacherLoginView(LoginView):
 
     def redirect_to(self, teacher):
         if teacher.has_school:
-            pass
+            classes = teacher.class_teacher.all()
+
+            if classes:
+                pass
+            else:
+                return reverse_lazy("onboarding_class")
         else:
             return reverse_lazy("onboarding_organisation")
 
