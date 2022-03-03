@@ -1,8 +1,9 @@
 from django import forms
+from ..fields import CharField
 
 
 class ClassCreationForm(forms.Form):
-    class_name = forms.CharField(
+    class_name = CharField(
         widget=forms.TextInput(attrs={"placeholder": "班級名稱"}),
         help_text="請輸入一個班級名稱",
     )

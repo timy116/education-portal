@@ -15,7 +15,7 @@ from . import BaseLoginForm
 from ..fields import (
     CharField, NameRegexField, EmailField
 )
-from ..models import Teacher, School
+from ..models import Teacher, School, Student
 from ..permissions import teacher_login
 
 
@@ -226,3 +226,75 @@ class OrganisationJoinForm(forms.Form):
             raise forms.ValidationError("無法識別學校名稱。")
 
         return chosen_org
+
+
+class StudentCreationForm(forms.Form):
+    names = CharField(
+        label="姓名",
+        widget=forms.Textarea(
+            attrs={
+                "placeholder": "您可以從 .csv 檔案匯入姓名或者是直接從檔案裡複制貼上到這個文字框",
+                "class": "m-0",
+            }
+        ),
+    )
+
+    def __init__(self, klass, *args, **kwargs):
+        self.klass = klass
+        self.stripped_names = None
+        super(StudentCreationForm, self).__init__(*args, **kwargs)
+
+    @staticmethod
+    def find_clashes(names, students, validation_errors):
+        clashes_found = []
+
+        for name in names:
+            if students.filter(user__first_name__iexact=name).exists() and name not in clashes_found:
+                validation_errors.append(forms.ValidationError(f"在班級裡已經存在名為 '{name}' 的學生"))
+                clashes_found.append(name)
+
+    @staticmethod
+    def find_duplicates(names, lower_names, validation_errors):
+        duplicates_found = []
+
+        for duplicate in [name for name in names if lower_names.count(name.lower()) > 1]:
+            if duplicate not in duplicates_found:
+                validation_errors.append(forms.ValidationError(f"學生名 '{duplicate}' 最多只能新增一次"))
+                duplicates_found.append(duplicate)
+
+    @staticmethod
+    def find_illegal_characters(names, validation_errors):
+        for name in names:
+            if re.match(re.compile(r"^[\w\s-]+$"), name) is None:
+                validation_errors.append(
+                    forms.ValidationError(f"姓名只能包涵英文、數字、空白字元、符號 '-' 與 '_'，您必須重新命名 '{name}'")
+                )
+
+    def validate_student_names(self, names):
+        validation_errors = []
+
+        if self.klass:
+            students = Student.objects.filter(class_field=self.klass)
+
+            self.find_clashes(names, students, validation_errors)
+
+        lower_names = [name.lower() for name in names]
+
+        self.find_duplicates(names, lower_names, validation_errors)
+        self.find_illegal_characters(names, validation_errors)
+
+        return validation_errors
+
+    def clean(self):
+        names = re.split(";|,|\n", self.cleaned_data.get("names", ""))
+        names = list(map(stripStudentName, names))
+        names = [name for name in names if name != ""]
+
+        validation_errors = self.validate_student_names(names)
+
+        if len(validation_errors) > 0:
+            raise forms.ValidationError(validation_errors)
+
+        self.stripped_names = names
+
+        return self.cleaned_data
