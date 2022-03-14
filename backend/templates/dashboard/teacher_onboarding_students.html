@@ -1,0 +1,70 @@
+{% extends 'dashboard/teacher_base.html' %}
+{% load staticfiles %}
+{% load portal_tags %}
+
+{% block content %}
+  <div id="onboarding_students_page"></div>
+
+  <div class="background container">
+    <div class="row">
+      <div class="form col-sm-12">
+        <h4>新增學生至班級</h4>
+
+        {% comment %} Progress {% endcomment %}
+        <p class="mb-3">進度 &lt; 3 / 4 &gt;</p>
+        <div class="progress">
+          <div class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"
+               style="width: 75%;">
+            <span class="sr-only">完成 75%</span>
+          </div>
+        </div>
+
+        <p>新增學生姓名至底下方塊，一行一個或使用逗號分隔姓名。</p>
+        <p>登入時會需要學生姓名和識別碼。</p>
+
+        {% comment %} Import CSV file button {% endcomment %}
+        <div class="mt-5">
+          <button id="students-csv-button" type="button" class="button button--secondary button--icon">
+            匯入 CSV 檔
+            <span class="iconify" data-icon="mdi:upload"></span>
+          </button>
+        </div>
+        <div class="mt-4">
+          <small><strong>請注意: 如果使用匯入 CSV檔，學生姓名必須在欄位 'name' 底下。</strong></small>
+        </div>
+
+        {% comment %} Create students form {% endcomment %}
+        <form id="form-create-students" method="POST">
+          {% csrf_token %}
+          {{ new_students_form.non_field_errors }}
+
+          {% comment %} Text Box {% endcomment %}
+          <div class="row d-flex align-items-end">
+            <div class="col-md-6 col-xs-9 d-flex">
+              {{ new_students_form.names.errors }}
+              {{ new_students_form.names }}
+            </div>
+
+            {% comment %} Add student button {% endcomment %}
+            <div class="col-md-6 col-xs-3">
+              <button id="submit_students" type="submit" class="button button--primary button--icon m-0"
+                      name="new-students" value="Add students">新增學生
+                <span class="iconify" data-icon="mdi:plus"></span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#form-create-students').submit(disableOnClick('#submit_students'));
+
+      importStudentsFromCSV('#students-csv-button', '#{{ new_students_form.names.auto_id }}')
+    });
+  </script>
+{% endblock scripts %}

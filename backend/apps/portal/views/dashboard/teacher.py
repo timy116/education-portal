@@ -100,10 +100,12 @@ def create_class(request):
                 name=form.cleaned_data["class_name"],
                 teacher=teacher,
                 access_code=generate_access_code(),
-                classmates_data_viewable=classmate_progress,
+                can_view_classmates_data=classmate_progress,
             )
+
             messages.success(request, f"您的班級 '{klass.name}' 已建立成功。")
 
+            return HttpResponseRedirect(reverse_lazy("onboarding_class", kwargs={"access_code": klass.access_code}))
     else:
         form = ClassCreationForm()
 

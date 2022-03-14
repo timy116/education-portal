@@ -65,6 +65,13 @@ form input[type="password"]:focus {
   color: #585c7b;
 }
 
+form textarea {
+  margin: 1rem 0;
+  padding: 1rem 0 0 1rem;
+  width: 100%;
+  color: #585c7b;
+}
+
 .input--icon {
   align-items: center;
   display: flex;
@@ -84,6 +91,18 @@ form input[type="password"]:focus {
 
 .content {
   background: linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)), #131022;
+}
+
+.mt-5 {
+  margin-top: 3rem !important;
+}
+
+.mt-4 {
+  margin-top: 1.5rem !important;
+}
+
+.m-0 {
+  margin: 0 !important;
 }
 
 .mx-0 {
