@@ -3,6 +3,7 @@ from enum import Enum, auto
 
 from django import forms
 
+STUDENT_PASSWORD_LENGTH = 6
 ERROR_MESSAGE = "您的密碼不符合複雜度原則(長度至少 %s 個字元且包含英文大小寫字母、數字及特殊符號字元)。"
 MOST_USED_PASSWORDS = [
     "qwerty",

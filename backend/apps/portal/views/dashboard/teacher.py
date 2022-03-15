@@ -1,12 +1,24 @@
+import json
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, reverse
 from django.urls import reverse_lazy
 
 from ...forms.klass import ClassCreationForm
-from ...forms.teacher import OrganisationJoinForm, OrganisationForm, StudentCreationForm
-from ...helpers.generators import generate_access_code
+from ...forms.teacher import (
+    OrganisationJoinForm,
+    OrganisationForm,
+    StudentCreationForm,
+)
+from ...helpers.generators import (
+    generate_access_code,
+    generate_password,
+    generate_login_id,
+    generate_student_url,
+)
+from ...helpers.password import STUDENT_PASSWORD_LENGTH
 from ...models import School, Student, Class
 from ...permissions import teacher_login
 
@@ -64,6 +76,43 @@ def process_edit_class(request, access_code: str, is_onboarding_done: bool, next
 
     if request.method == "POST":
         new_students_form = StudentCreationForm(klass, data=request.POST)
+
+        if new_students_form.is_valid():
+            students_info = []
+
+            for name in new_students_form.stripped_names:
+                password = generate_password(STUDENT_PASSWORD_LENGTH)
+                login_id, hashed_login_id = generate_login_id()
+                student = Student.objects.school_factory(
+                    klass=klass,
+                    name=name,
+                    password=password,
+                    login_id=hashed_login_id,
+                )
+                login_url = generate_student_url(request, student, login_id)
+
+                students_info.append(
+                    {
+                        "id": student.user.id,
+                        "name": name,
+                        "password": password,
+                        "login_url": login_url,
+                    }
+                )
+
+            return render(
+                request=request,
+                template_name="dashboard/teacher_onboarding_print.html",
+                context={
+                    "class": klass,
+                    "students_info": students_info,
+                    "is_onboarding_done": is_onboarding_done,
+                    "query_data": json.dumps(students_info),
+                    "class_url": request.build_absolute_uri(
+                        reverse("student_login", kwargs={"access_code": klass.access_code})
+                    )
+                },
+            )
     else:
         new_students_form = StudentCreationForm(klass)
 

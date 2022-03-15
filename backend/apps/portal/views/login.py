@@ -59,3 +59,11 @@ class TeacherLoginView(LoginView):
             return super().get_success_url()
         except NoReverseMatch:
             return self.redirect_to(self.request.user.userprofile.teacher)
+
+
+class StudentLoginView(LoginView):
+    pass
+
+
+def student_direct_login(request, user_id, login_id):
+    pass
