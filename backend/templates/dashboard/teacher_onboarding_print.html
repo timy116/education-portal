@@ -108,7 +108,7 @@
                   <div><small>班級連結&nbsp;->&nbsp;</small></div>
                   <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
                   <div>
-                    <a onclick="" data-toggle="copyToClipboardTooltip">
+                    <a onclick="copyToClipboard(this, '#class_url')" data-toggle="copyToClipboardTooltip">
                       <span class="iconify" data-icon="mdi:content-copy" title="複制到剪貼簿"></span>
                     </a>
                   </div>
@@ -139,7 +139,7 @@
                     <div id="student_{{ student_info.id }}_url" class="flex-grow-1 mx-1 text-truncate">
                       <small>{{ student_info.login_url }}</small></div>
                     <div>
-                      <a onclick=""
+                      <a onclick="copyToClipboard(this, '#student_{{ student_info.id }}_url')"
                          data-toggle="copyToClipboardTooltip">
                         <span class="iconify" data-icon="mdi:content-copy" title="複制到剪貼簿"></span>
                       </a>
@@ -167,7 +167,7 @@
             </form>
 
             {% comment %} Download CSV {% endcomment %}
-            <form target="_blank" method="post" action="" class="p-0">
+            <form target="_blank" method="post" action="{% url 'teacher_download_csv' class.access_code %}" class="p-0">
               {% csrf_token %}
 
               <input type="hidden" name="data" value="{{ query_data }}"/>
@@ -190,8 +190,9 @@
             </div>
           {% else %}
             <div class="d-flex justify-content-end">
-              <form method="post" action="" class="p-0">
+              <form method="post" action="{% url 'teacher_dashboard' %}" class="p-0">
                 {% csrf_token %}
+
                 <input type="hidden" name="show_onboarding_complete" value="1"/>
                 <button id="complete_setup_button"
                         class="button button--secondary button--secondary--dark button--icon m-0"
@@ -206,4 +207,17 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/main.js' %}"></script>
+  <script>
+    $(document).ready(() => {
+      $('[data-toggle="copyToClipboardTooltip"]').tooltip({
+        title: "已複制到剪貼簿!",
+        trigger: "manual",
+        placement: "auto top",
+      });
+    });
+  </script>
 {% endblock %}

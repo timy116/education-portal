@@ -1,8 +1,9 @@
+import csv
 import json
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, reverse
 from django.urls import reverse_lazy
 
@@ -21,6 +22,15 @@ from ...helpers.generators import (
 from ...helpers.password import STUDENT_PASSWORD_LENGTH
 from ...models import School, Student, Class
 from ...permissions import teacher_login
+
+
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(teacher_login, login_url=reverse_lazy("teacher_login"))
+def dashboard(request):
+    teacher = request.user.teacher
+
+    if not teacher.school:
+        return HttpResponseRedirect(reverse_lazy("onboarding_organisation"))
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
@@ -167,10 +177,77 @@ def create_class(request):
     )
 
 
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(teacher_login, login_url=reverse_lazy("teacher_login"))
 def edit_class(request, access_code):
     return process_edit_class(
         request,
         access_code,
-        is_onboarding_done=False,
+        is_onboarding_done=True,
         next_url="dashboard/teacher_onboarding_students.html",
+    )
+
+
+@login_required(login_url=reverse_lazy("teacher_login"))
+@user_passes_test(teacher_login, login_url=reverse_lazy("teacher_login"))
+def download_csv(request, access_code):
+    response = HttpResponse(content_type="text/csv")
+    response["Content-Disposition"] = 'attachment; filename="student_login_urls.csv"'
+
+    klass = get_object_or_404(Class, access_code=access_code)
+
+    if klass.teacher.user != request.user:
+        return Http404
+
+    data = []
+    class_url = request.build_absolute_uri(reverse("student_login", kwargs={"access_code": access_code}))
+
+    if request.method == "POST":
+        data = json.loads(request.POST.get("data", "[]"))
+
+    if data:
+        writer = csv.writer(response)
+        writer.writerow([access_code, class_url])
+
+        for student in data:
+            writer.writerow([student["name"], student["password"], student["login_url"]])
+
+    return response
+
+
+def test(request):
+    teacher = request.user.teacher
+    klass = teacher.class_teacher.all()[0]
+    students_info = []
+
+    students_info.append(
+        {
+            "id": 1,
+            "name": 'Ben',
+            "password": 'dzwwmb',
+            "login_url": 'http://127.0.0.1:8000/login/u/12/3ed57463a3974d7eb3e4cbb94043e0cc/',
+        }
+    )
+
+    students_info.append(
+        {
+            "id": 2,
+            "name": 'Cindy',
+            "password": 'txnelj',
+            "login_url": 'http://127.0.0.1:8000/login/u/13/4b3be8049360492a833c59fa6d21edd1/',
+        }
+    )
+
+    return render(
+        request=request,
+        template_name="dashboard/teacher_onboarding_print.html",
+        context={
+            "class": klass,
+            "students_info": students_info,
+            "is_onboarding_done": False,
+            "query_data": json.dumps(students_info),
+            "class_url": request.build_absolute_uri(
+                reverse("student_login", kwargs={"access_code": klass.access_code})
+            )
+        },
     )
