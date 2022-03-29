@@ -48,9 +48,17 @@ class TeacherLoginView(LoginView):
             classes = teacher.class_teacher.all()
 
             if classes:
-                pass
+                count = classes.count()
+
+                if count > 1 or classes[0].has_students():
+                    pass
+                else:
+                    return reverse_lazy(
+                        "onboarding_class",
+                        kwargs={"access_code": classes[0].access_code}
+                    )
             else:
-                return reverse_lazy("onboarding_class")
+                return reverse_lazy("onboarding_classes")
         else:
             return reverse_lazy("onboarding_organisation")
 

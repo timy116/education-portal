@@ -12,7 +12,7 @@ urlpatterns = [
     url(r"^independent/$", IndependentStudentLoginView.as_view(), name="independent_student_login"),
     url(r"^teacher/$", TeacherLoginView.as_view(), name="teacher_login"),
     url(
-        rf"^login/student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
+        rf"^student/(?P<access_code>{ACCESS_CODE_REGEX})/(?:(?P<login_type>classform)/)?$",
         StudentLoginView.as_view(),
         name="student_login",
     ),

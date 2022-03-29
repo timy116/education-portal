@@ -1,0 +1,209 @@
+{% extends 'dashboard/teacher_base.html' %}
+{% load staticfiles %}
+{% load portal_tags %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'css/dashboard/teacher/onboarding-print.css' %}">
+
+  <style>
+    .sub-nav--warning {
+      background-color: #614092;
+      color: #fff;
+    }
+
+  </style>
+{% endblock %}
+
+{% block content %}
+  {% if is_onboarding_done %}
+    <section class="banner banner--teacher row mx-0 flex-column">
+      <h5>班級與班級識別碼：</h5>
+      <h1 class="banner__text--primary mt-3 mb-4">{{ class.name }}, ({{ class.access_code }})</h1>
+      <h5>{{ user.teacher.school.name }}</h5>
+    </section>
+  {% endif %}
+
+  <div id="onboarding_student_list_page"></div>
+
+  {% comment %} Warning bar {% endcomment %}
+  <div id="sticky-warning" class="sub-nav--warning">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 sub-nav">
+
+          {% comment %} Warning icon {% endcomment %}
+          <span class="iconify sub-nav--icon" data-icon="mdi:alert-outline"></span>
+
+          {% comment %} Warning message {% endcomment %}
+          <p class="flex-grow-1">
+            <small><strong>這是您能夠查看此頁面的唯一時間點。您可以列印或是下載 CSV 檔。</strong></small>
+          </p>
+
+          {% comment %} Print button {% endcomment %}
+          <form target="_blank" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="data" value="{{ query_data }}"/>
+            <div class="section">
+              <button class="button button--secondary button--icon" type="submit">
+                列印<span class="iconify" data-icon="mdi:printer"></span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %}  {% endcomment %}
+  <div class="background container">
+    <div class="row">
+      <div class="form col-sm-12">
+        {% if not onboarding_done %}
+          <h4>學生登入資訊</h4>
+
+          <p class="mb-3">進度 &lt; 4 / 4 &gt;</p>
+
+          {% comment %} Progress {% endcomment %}
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+                 style="width: 100%;">
+              <span class="sr-only">完成 100%</span>
+            </div>
+          </div>
+        {% endif %}
+
+        {% if passwords_reset %}
+          {% comment %} pass {% endcomment %}
+        {% else %}
+          <p>
+            已經為您的班級創建了以下憑證。當學生登入時，您可能會希望他們將密碼改成自己能夠更好記住的密碼。
+            您可以在任何時候為他們重置這些登入訊息。
+          </p>
+          <p>
+            學生們需要輸入他們的姓名和密碼，或者您可以提供他們底下表格內的直接存取連結來做登入。
+          </p>
+          <p class="text-danger">
+            <strong>
+              您將不會再次看到這個頁面，所以請確認您已經保存這些密碼記錄。
+              您可以點擊底下按鈕來列印這些資訊。
+              請確保您以安全的方式分享這些學生密碼。
+            </strong>
+          </p>
+        {% endif %}
+
+        {% comment %} Login info table {% endcomment %}
+        <div class="d-flex">
+          <table id="student_table" class="col-sm-12 header-primary data-primary">
+            {% comment %} Table title {% endcomment %}
+            <tr>
+              <th class="col-xs-6" colspan="2">選擇 1 - 使用帳密登入</th>
+              <th class="no-bg"></th>
+              <th class="col-xs-6"><p>選擇 2 - 使用連結登入</p></th>
+            </tr>
+
+            {% comment %} Row 1 {% endcomment %}
+            <tr>
+              <td colspan="2" class="mw-0">
+                <div class="d-flex">
+                  <div><small>班級連結&nbsp;->&nbsp;</small></div>
+                  <div id="class_url" class="flex-grow-1 mx-1 text-truncate"><small>{{ class_url }}</small></div>
+                  <div>
+                    <a onclick="" data-toggle="copyToClipboardTooltip">
+                      <span class="iconify" data-icon="mdi:content-copy" title="複制到剪貼簿"></span>
+                    </a>
+                  </div>
+                </div>
+              </td>
+              <td class="no-bg">
+                <div class="or-circle d-none d-lg-block">或</div>
+              </td>
+              <td><p><small><strong>無班級識別碼或不需要密碼</strong></small></p></td>
+            </tr>
+
+            {% comment %} Row 2 {% endcomment %}
+            <tr class="header-secondary">
+              <th><p>姓名</p></th>
+              <th><p>密碼</p></th>
+              <th class="no-bg"></th>
+              <th><p>複制底下連結並分享給學生</p></th>
+            </tr>
+
+            {% comment %} for loop {% endcomment %}
+            {% for student_info in students_info %}
+              <tr>
+                <td><p><small>{{ student_info.name }}</small></p></td>
+                <td><p><small>{{ student_info.password }}</small></p></td>
+                <td class="no-bg"></td>
+                <td class="mw-0">
+                  <div class="d-flex align-items-center">
+                    <div id="student_{{ student_info.id }}_url" class="flex-grow-1 mx-1 text-truncate">
+                      <small>{{ student_info.login_url }}</small></div>
+                    <div>
+                      <a onclick=""
+                         data-toggle="copyToClipboardTooltip">
+                        <span class="iconify" data-icon="mdi:content-copy" title="複制到剪貼簿"></span>
+                      </a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        </div>
+
+        <section>
+          {% comment %} Print or Download block {% endcomment %}
+          <div class="d-flex justify-content-between mb-5">
+            {% comment %} Print {% endcomment %}
+            <form target="_blank" method="post" action=""
+                  class="p-0">
+              {% csrf_token %}
+
+              <input type="hidden" name="data" value="{{ query_data }}"/>
+              <button class="button button--primary button--icon m-0" type="submit">
+                列印密碼資訊
+                <span class="iconify" data-icon="mdi:printer"></span>
+              </button>
+            </form>
+
+            {% comment %} Download CSV {% endcomment %}
+            <form target="_blank" method="post" action="" class="p-0">
+              {% csrf_token %}
+
+              <input type="hidden" name="data" value="{{ query_data }}"/>
+              <button class="button button--primary button--icon m-0" type="submit">
+                下載 CSV
+                <span class="iconify" data-icon="mdi:tray-arrow-down"></span>
+              </button>
+            </form>
+          </div>
+
+          {% if is_onboarding_done %}
+            <div class="d-flex">
+              <a id="back_to_class_button" href="#"
+                 class="button button--secondary m-0">
+                <div class="d-flex align-items-center">
+                  <span class="iconify mr-3" data-icon="mdi:chevron-left"></span>
+                  <div>回到班級</div>
+                </div>
+              </a>
+            </div>
+          {% else %}
+            <div class="d-flex justify-content-end">
+              <form method="post" action="" class="p-0">
+                {% csrf_token %}
+                <input type="hidden" name="show_onboarding_complete" value="1"/>
+                <button id="complete_setup_button"
+                        class="button button--secondary button--secondary--dark button--icon m-0"
+                        type="submit">
+                  完成設定
+                  <span class="iconify" data-icon="mdi:check"></span>
+                </button>
+              </form>
+            </div>
+          {% endif %}
+        </section>
+      </div>
+    </div>
+  </div>
+{% endblock %}

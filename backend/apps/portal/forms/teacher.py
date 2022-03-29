@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django.contrib.auth import authenticate
 from django.core.validators import EmailValidator
@@ -287,7 +289,7 @@ class StudentCreationForm(forms.Form):
 
     def clean(self):
         names = re.split(";|,|\n", self.cleaned_data.get("names", ""))
-        names = list(map(stripStudentName, names))
+        names = list(map(lambda x: re.sub("[ \t]+", " ", x.strip()), names))
         names = [name for name in names if name != ""]
 
         validation_errors = self.validate_student_names(names)

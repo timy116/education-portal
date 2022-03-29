@@ -1,0 +1,96 @@
+.sub-nav {
+  padding: 0 2rem;
+  align-items: center;
+  display: flex;
+  height: 60px;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  z-index: 1000;
+}
+
+.sub-nav--icon {
+  font-size: 4rem;
+}
+
+.sub-nav p {
+  padding: 0 2rem;
+  text-align: left;
+}
+
+.sub-nav form {
+  padding: 0;
+}
+
+.sub-nav form .button {
+  margin: 0;
+}
+
+/* Login info table */
+/* golbal table style start */
+table {
+  border-collapse: collapse;
+  border: 2px solid rgba(255, 255, 255, .15);
+}
+
+th {
+  padding: 0.5rem 1rem;
+  font-weight: 500;
+}
+
+td {
+  padding: 1rem;
+}
+
+th, td {
+  border: 2px solid rgba(255, 255, 255, .15);
+}
+
+.no-bg {
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+}
+
+/* golbal table style end */
+
+.header-primary th:not(.no-bg) {
+  background-color: #1f1c2d;
+}
+
+.or-circle {
+  font-size: 1.4rem;
+  background-color: #7952B3;
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 600;
+  line-height: 40px;
+  width: 40px;
+  height: 40px;
+  margin: 4px;
+  text-align: center;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.button--secondary {
+  border-radius: 0.75rem;
+  transition: color .2s ease-in-out, background-color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.button--secondary:hover,
+.button--secondary:active,
+.button--secondary:focus {
+  border-color: #6366f1;
+  color: #6366f1;
+}
+
+/* Media query start */
+@media (min-width: 992px) {
+  .d-lg-block {
+    display: block !important;
+  }
+}

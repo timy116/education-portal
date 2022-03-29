@@ -19,7 +19,7 @@ def generate_password(length):
     return "".join(random.choice(string.ascii_lowercase) for _ in range(length))
 
 
-def generate_login_id() -> turtle:
+def generate_login_id() -> tuple:
     login_id = uuid4().hex
     hashed_login_id = get_hashed_login_id(login_id)
 
@@ -32,5 +32,5 @@ def get_hashed_login_id(login_id: str):
 
 def generate_student_url(request, student, login_id):
     return request.build_absolute_uri(
-        reverse("student_direct_login",kwargs={"user_id": student.new_user.id, "login_id": login_id})
+        reverse("student_direct_login",kwargs={"user_id": student.user.id, "login_id": login_id})
     )
