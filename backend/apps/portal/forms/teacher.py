@@ -142,6 +142,74 @@ class TeacherLoginForm(BaseLoginForm):
             raise self.get_invalid_login_error()
 
 
+class TeacherEditForm(forms.Form):
+    """
+    Teacher edit account form.
+    """
+
+    error_messages = {
+        "password_does_not_match": "您輸入的密碼不一致。",
+    }
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(TeacherEditForm, self).__init__(*args, **kwargs)
+
+    first_name = NameRegexField(
+        max_length=15,
+        widget=forms.TextInput(attrs={"placeholder": "您的新名字", "class": "fName"}),
+        help_text="您新的名字",
+    )
+    last_name = NameRegexField(
+        max_length=10,
+        widget=forms.TextInput(attrs={"placeholder": "您的新姓氏", "class": "lName"}),
+        help_text="您的新姓氏",
+    )
+    email = EmailField(
+        required=False,
+        help_text="新的電子郵件地址(選填)",
+        widget=forms.EmailInput(attrs={"placeholder": "新的電子郵件地址(選填)"}),
+    )
+    password = CharField(
+        required=False,
+        help_text="新密碼(選填)",
+        widget=forms.PasswordInput(attrs={"placeholder": "新密碼(選填)"}),
+    )
+    confirm_password = CharField(
+        required=False,
+        help_text="再次輸入新密碼(選填)",
+        widget=forms.PasswordInput(attrs={"placeholder": "再次輸入新密碼(選填)"}),
+    )
+    current_password = CharField(
+        widget=forms.PasswordInput(attrs={"placeholder": "您目前的密碼"}),
+        help_text="請輸入您目前的密碼",
+    )
+
+    def check_password_errors(self, password, confirm_password, current_password):
+        if password != confirm_password:
+            e = forms.ValidationError(self.error_messages["password_does_not_match"])
+            self.add_error("password", e)
+            self.add_error("confirm_password", e)
+
+        if not self.user.check_password(current_password):
+            raise forms.ValidationError("您目前的密碼輸入錯誤")
+
+    def clean_password(self):
+        return clean_password_helper(self, "password", PasswordStrength.TEACHER)
+
+    def clean(self):
+        if any(self.errors):
+            return
+
+        password = self.cleaned_data["password"]
+        confirm_password = self.cleaned_data["confirm_password"]
+        current_password = self.cleaned_data["current_password"]
+
+        self.check_password_errors(password, confirm_password, current_password)
+
+        return self.cleaned_data
+
+
 class OrganisationForm(forms.ModelForm):
     class Meta:
         model = School
