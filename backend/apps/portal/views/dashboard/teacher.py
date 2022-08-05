@@ -12,6 +12,7 @@ from ...forms.teacher import (
     OrganisationJoinForm,
     OrganisationForm,
     StudentCreationForm,
+    TeacherEditForm,
 )
 from ...helpers.generators import (
     generate_access_code,
@@ -20,7 +21,7 @@ from ...helpers.generators import (
     generate_student_url,
 )
 from ...helpers.password import STUDENT_PASSWORD_LENGTH
-from ...models import School, Student, Class
+from ...models import School, Student, Class, Teacher
 from ...permissions import teacher_login
 
 
@@ -31,6 +32,48 @@ def dashboard(request):
 
     if not teacher.school:
         return HttpResponseRedirect(reverse_lazy("onboarding_organisation"))
+
+    school = teacher.school
+    coworkers = Teacher.objects.filter(pending_join_request=school).order_by("user__last_name", "user__first_name")
+    join_requests = Teacher.objects.filter(pending_join_request=school).order_by("user__last_name", "user__first_name")
+    requests = Student.objects.filter(pending_class_reqest__teacher=teacher)
+    update_school_form = OrganisationForm(user=request.user, current_school=school)
+
+    update_school_form.fields["name"].initial = school.name
+    update_school_form.fields["postcode"].initial = school.postcode
+    update_school_form.fields["country"].initial = school.country
+
+    create_class_form = ClassCreationForm()
+    update_account_form = TeacherEditForm(request.user)
+
+    update_account_form.fields["first_name"].initial = request.user.first_name
+    update_account_form.fields["last_name"].initial = request.user.last_name
+
+    anchor = ""
+    show_onboarding_complete = False
+
+    if request.method == "POST":
+        pass
+
+    classes = Class.objects.filter(teacher=teacher)
+
+    return render(
+        request,
+        "dashboard/teacher_dashboard.html",
+        {
+            "teacher": teacher,
+            "classes": classes,
+            "is_admin": teacher.is_admin,
+            "coworkers": coworkers,
+            "join_requests": join_requests,
+            "requests": requests,
+            "update_school_form": update_school_form,
+            "create_class_form": create_class_form,
+            "update_account_form": update_account_form,
+            "anchor": anchor,
+            "show_onboarding_complete": show_onboarding_complete,
+        },
+    )
 
 
 @login_required(login_url=reverse_lazy("teacher_login"))
